@@ -1,0 +1,103 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:report_repository/src/entities/entities.dart';
+import 'package:report_repository/src/models/report.dart';
+import 'package:report_repository/src/report_repo.dart';
+import 'package:uuid/uuid.dart';
+
+class FirebaseReportRepository implements ReportRepository {
+  final reportCollection = FirebaseFirestore.instance.collection('reports');
+
+  @override
+  Future<Report> saveReport(Report report, List<String> images) async {
+    try {
+      List<String> imageUrls = [];
+
+      report.reportId = const Uuid().v1();
+
+      // Save images to storage
+      for (var image in images) {
+        File imagFile = File(image);
+
+        Reference firebaseStoreReference = FirebaseStorage.instance.ref().child('reports/${report.reportId}/${imagFile.path.split('/').last}');
+
+        await firebaseStoreReference.putFile(imagFile);
+
+        String downloadUrl = await firebaseStoreReference.getDownloadURL();
+        imageUrls.add(downloadUrl);
+      }
+
+      report.images = imageUrls;
+
+      await reportCollection
+          .doc(report.reportId)
+          .set(report.toEntity().toDocument());
+
+      return report;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<Report>> getReports() {
+    try {
+      return reportCollection.get().then((value) => value.docs
+          .map((e) => Report.fromEntity(ReportEntity.fromDocument(e.data())))
+          .toList());
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteReport(Report report) async {
+    try {
+      // Delete images from storage
+      for (var imageUrl in report.images ?? []) {
+        FirebaseStorage.instance.refFromURL(imageUrl).delete();
+      }
+
+      return reportCollection.doc(report.reportId).delete();
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> updateReport(Report report) async {
+    try {
+      // Delete old images
+      for (var imageUrl in report.images ?? []) {
+        FirebaseStorage.instance.refFromURL(imageUrl).delete();
+      }
+
+      // Save new images
+      List<String> imageUrls = [];
+
+      for (var image in report.images ?? []) {
+        File imagFile = File(image);
+
+        Reference firebaseStoreReference = FirebaseStorage.instance.ref().child('reports/${report.reportId}/${imagFile.path.split('/').last}');
+
+        await firebaseStoreReference.putFile(imagFile);
+
+        String downloadUrl = await firebaseStoreReference.getDownloadURL();
+        imageUrls.add(downloadUrl);
+      }
+
+      return reportCollection
+          .doc(report.reportId)
+          .update(report.toEntity().toDocument());
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+}

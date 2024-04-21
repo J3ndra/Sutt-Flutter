@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "226348593669",
+    "project_id": "sutt-f4504",
+    "storage_bucket": "sutt-f4504.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226348593669:android:0cdf0d424437d5035ba26c",
+        "android_client_info": {
+          "package_name": "com.junianto.sutt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCbMq_bZXufcmJOJCNUjLSZ6sdAX4pw9o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
