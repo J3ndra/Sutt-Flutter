@@ -45,7 +45,6 @@ class ReportEntity {
     );
   }
 
-  @override
   List<Object?> get props => [
         reportId,
         city,

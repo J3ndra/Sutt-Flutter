@@ -10,7 +10,6 @@ import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:report_repository/report_repository.dart';
 import 'package:sutt/blocs/reports/create_report/create_report_bloc.dart';
-import 'package:sutt/screens/screens.dart';
 
 class IndukFinalPage extends StatefulWidget {
   const IndukFinalPage(
