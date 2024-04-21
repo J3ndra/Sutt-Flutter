@@ -28,3 +28,12 @@ final class GetReportSuccess extends GetReportState {
   @override
   List<Object> get props => [reports];
 }
+
+final class GetSingleReportSuccess extends GetReportState {
+  final Report report;
+
+  const GetSingleReportSuccess(this.report);
+
+  @override
+  List<Object> get props => [report];
+}

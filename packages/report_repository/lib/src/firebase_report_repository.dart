@@ -106,4 +106,16 @@ class FirebaseReportRepository implements ReportRepository {
       rethrow;
     }
   }
+  
+  @override
+  Future<Report> getReport(String id) {
+    try {
+      return reportCollection.doc(id).get().then((doc) {
+        return Report.fromEntity(ReportEntity.fromDocument(doc.data() ?? {}));
+      });
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
 }

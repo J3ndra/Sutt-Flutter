@@ -16,3 +16,12 @@ class GetReports extends GetReportEvent {
   @override
   List<Object> get props => [city, kw];
 }
+
+class GetSingleReport extends GetReportEvent {
+  final String id;
+
+  const GetSingleReport(this.id);
+
+  @override
+  List<Object> get props => [id];
+}
