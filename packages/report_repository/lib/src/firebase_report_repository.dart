@@ -44,11 +44,17 @@ class FirebaseReportRepository implements ReportRepository {
   }
 
   @override
-  Future<List<Report>> getReports() {
+  Future<List<Report>> getReports(String city, String kw) {
     try {
-      return reportCollection.get().then((value) => value.docs
-          .map((e) => Report.fromEntity(ReportEntity.fromDocument(e.data())))
-          .toList());
+      return reportCollection
+          .where('city', isEqualTo: city)
+          .where('kw', isEqualTo: kw)
+          .get()
+          .then((snapshot) {
+        return snapshot.docs
+            .map((doc) => Report.fromEntity(ReportEntity.fromDocument(doc.data())))
+            .toList();
+      });
     } catch (e) {
       log(e.toString());
       rethrow;

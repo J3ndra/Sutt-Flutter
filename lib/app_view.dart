@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:report_repository/report_repository.dart';
 import 'package:sutt/blocs/authentication/authentication_bloc.dart';
+import 'package:sutt/blocs/reports/create_report/create_report_bloc.dart';
+import 'package:sutt/blocs/reports/get_report/get_report_bloc.dart';
 import 'package:sutt/blocs/sign_in/sign_in_bloc.dart';
 import 'package:sutt/blocs/user/user_bloc.dart';
 import 'package:sutt/screens/screens.dart';
@@ -39,6 +42,12 @@ class AppView extends StatelessWidget {
                       ),
                     ),
                 ),
+                BlocProvider(create: (context) => GetReportBloc(
+                  reportRepository: FirebaseReportRepository(),
+                )),
+                BlocProvider(create: (context) => CreateReportBloc(
+                  reportRepository: FirebaseReportRepository(),
+                )),
               ],
               child: const HomeScreen(),
             );

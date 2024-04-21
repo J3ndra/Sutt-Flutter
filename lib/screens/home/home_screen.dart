@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:report_repository/report_repository.dart';
-import 'package:sutt/blocs/reports/create_report/create_report_bloc.dart';
 import 'package:sutt/blocs/sign_in/sign_in_bloc.dart';
 import 'package:sutt/screens/induk/induk_page.dart';
+import 'package:sutt/screens/sutt/sutt_page.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -37,14 +36,11 @@ class HomeScreen extends StatelessWidget {
               label: 'Index',
               onTap: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                          BlocProvider<CreateReportBloc>(
-                              create: (context) => CreateReportBloc(
-                                  reportRepository: FirebaseReportRepository()),
-                              child: const IndukPage()),
-                    ));
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const IndukPage(),
+                  ),
+                );
               },
             ),
             const SizedBox(height: 8),
@@ -56,9 +52,12 @@ class HomeScreen extends StatelessWidget {
               ),
               label: 'Sutt',
               onTap: () {
-                // Navigator.of(context).push(
-                //     MaterialPageRoute(builder: (BuildContext context) => const SuttPage()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const SuttPage(),
+                  ),
+                );
               },
             ),
           ],
