@@ -1,11 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:report_repository/report_repository.dart';
 import 'package:sutt/blocs/reports/delete_report/delete_report_bloc.dart';
 import 'package:sutt/blocs/reports/get_report/get_report_bloc.dart';
+import 'package:sutt/blocs/reports/update_report/update_report_bloc.dart';
 import 'package:sutt/components/custom_image.dart';
+import 'package:sutt/screens/sutt/sutt_edit_page.dart';
 
 class SuttDetailPage extends StatefulWidget {
   const SuttDetailPage({super.key, required this.reportId});
@@ -70,7 +71,21 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
           actions: [
             PopupMenuButton(itemBuilder: (context) {
               return [
-                _buildPopupMenuItem('Edit', Icons.edit, () => log("Edit")),
+                _buildPopupMenuItem('Edit', Icons.edit, () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            BlocProvider<UpdateReportBloc>(
+                          create: (context) => UpdateReportBloc(
+                            reportRepository: FirebaseReportRepository(),
+                          )..add(
+                              GetUpdateReport(widget.reportId),
+                            ),
+                          child: const SuttEditPage(),
+                        ),
+                      ));
+                }),
                 _buildPopupMenuItem('Delete', Icons.delete, () {
                   BlocProvider.of<DeleteReportBloc>(context)
                       .add(DeleteReport(widget.reportId));
