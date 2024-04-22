@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:report_repository/report_repository.dart';
+import 'package:sutt/blocs/reports/delete_report/delete_report_bloc.dart';
 import 'package:sutt/blocs/reports/get_report/get_report_bloc.dart';
 import 'package:sutt/screens/sutt/sutt_detail_page.dart';
 
@@ -70,12 +71,24 @@ class _SuttListPageState extends State<SuttListPage> {
                             context,
                             MaterialPageRoute<void>(
                               builder: (BuildContext context) =>
+                                  MultiBlocProvider(
+                                providers: [
                                   BlocProvider<GetReportBloc>(
-                                create: (context) => GetReportBloc(
-                                    reportRepository:
-                                        FirebaseReportRepository()),
-                                child:
-                                    SuttDetailPage(reportId: report.reportId),
+                                    create: (context) => GetReportBloc(
+                                      reportRepository:
+                                          FirebaseReportRepository(),
+                                    ),
+                                  ),
+                                  BlocProvider(
+                                    create: (context) => DeleteReportBloc(
+                                      reportRepository:
+                                          FirebaseReportRepository(),
+                                    ),
+                                  ),
+                                ],
+                                child: SuttDetailPage(
+                                  reportId: report.reportId,
+                                ),
                               ),
                             ),
                           );

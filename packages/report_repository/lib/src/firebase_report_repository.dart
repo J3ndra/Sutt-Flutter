@@ -62,8 +62,10 @@ class FirebaseReportRepository implements ReportRepository {
   }
 
   @override
-  Future<void> deleteReport(Report report) async {
+  Future<void> deleteReport(String reportId) async {
     try {
+      Report report = await getReport(reportId);
+
       // Delete images from storage
       for (var imageUrl in report.images ?? []) {
         FirebaseStorage.instance.refFromURL(imageUrl).delete();
@@ -77,7 +79,7 @@ class FirebaseReportRepository implements ReportRepository {
   }
 
   @override
-  Future<void> updateReport(Report report) async {
+  Future<Report> updateReport(Report report) async {
     try {
       // Delete old images
       for (var imageUrl in report.images ?? []) {
@@ -98,9 +100,13 @@ class FirebaseReportRepository implements ReportRepository {
         imageUrls.add(downloadUrl);
       }
 
-      return reportCollection
+      report.images = imageUrls;
+
+      await reportCollection
           .doc(report.reportId)
           .update(report.toEntity().toDocument());
+
+      return report;
     } catch (e) {
       log(e.toString());
       rethrow;

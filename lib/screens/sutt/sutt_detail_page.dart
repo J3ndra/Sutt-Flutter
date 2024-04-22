@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:sutt/blocs/reports/delete_report/delete_report_bloc.dart';
 import 'package:sutt/blocs/reports/get_report/get_report_bloc.dart';
+import 'package:sutt/components/custom_image.dart';
 
 class SuttDetailPage extends StatefulWidget {
   const SuttDetailPage({super.key, required this.reportId});
@@ -25,70 +29,239 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sutt Detail'),
-        titleSpacing: 0,
-        leading: InkWell(
-          key: const Key('suttDetailPage_back_iconButton'),
-          child: Icon(
-            Icons.arrow_back,
-            color: Theme.of(context).colorScheme.onBackground,
+    return BlocListener<DeleteReportBloc, DeleteReportState>(
+      listener: (context, state) {
+        if (state is DeleteReportSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Report deleted successfully'),
+            ),
+          );
+
+          Navigator.popUntil(context, (route) => route.isFirst);
+        } else if (state is DeleteReportFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Failed to delete report: ${state.message}'),
+            ),
+          );
+        } else if (state is DeleteReportLoading) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Deleting report...'),
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Sutt Detail'),
+          titleSpacing: 0,
+          leading: InkWell(
+            key: const Key('suttDetailPage_back_iconButton'),
+            child: Icon(
+              Icons.arrow_back,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+            },
           ),
-          onTap: () {
-            Navigator.of(context).pop();
+          actions: [
+            PopupMenuButton(itemBuilder: (context) {
+              return [
+                _buildPopupMenuItem('Edit', Icons.edit, () => log("Edit")),
+                _buildPopupMenuItem('Delete', Icons.delete, () {
+                  BlocProvider.of<DeleteReportBloc>(context)
+                      .add(DeleteReport(widget.reportId));
+                }),
+              ];
+            }),
+          ],
+        ),
+        body: BlocBuilder<GetReportBloc, GetReportState>(
+          builder: (context, state) {
+            if (state is GetSingleReportSuccess) {
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Gambar',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          for (var image in state.report.images ?? [])
+                            CustomImage(
+                              imageUrl: image,
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Kota',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  state.report.city,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'KW',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  state.report.kw,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Tanggal',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  DateFormat('yyyy-MM-dd')
+                                      .format(state.report.reportDate),
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Ginset',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.report.ginsets?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '  ●  ${state.report.ginsets![index]}',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Bay',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.report.bays?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '  ●   ${state.report.bays![index]}',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Alat Kerja',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.report.tools?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '  ●   ${state.report.tools![index]}',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            } else if (state is GetReportFailure) {
+              return _buildFailedToFetchReport();
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
           },
         ),
-        actions: [
-          PopupMenuButton(itemBuilder: (context) {
-            return [
-              _buildPopupMenuItem('Edit', Icons.edit, () => print("Edit")),
-              _buildPopupMenuItem('Delete', Icons.delete, () => print("Delete")),
-            ];
-          }),
-        ],
-      ),
-      body: BlocBuilder<GetReportBloc, GetReportState>(
-        builder: (context, state) {
-          if (state is GetSingleReportSuccess) {
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'City: ${state.report.city}',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'KW: ${state.report.kw}',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Report ID: ${state.report.reportId}',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Report Date: ${DateFormat('yyyy-MM-dd').format(state.report.reportDate)}',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          } else if (state is GetReportFailure) {
-            return _buildFailedToFetchReport();
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
       ),
     );
   }
