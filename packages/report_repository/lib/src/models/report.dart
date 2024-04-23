@@ -6,6 +6,7 @@ class Report {
   String kw;
   List<String>? images;
   List<String>? tools;
+  List<int>? toolsQuantity;
   DateTime reportDate;
   List<String>? ginsets;
   List<String>? bays;
@@ -16,6 +17,7 @@ class Report {
     required this.kw,
     required this.images,
     required this.tools,
+    required this.toolsQuantity,
     required this.reportDate,
     required this.ginsets,
     required this.bays,
@@ -27,6 +29,7 @@ class Report {
     kw: '',
     images: [],
     tools: [],
+    toolsQuantity: [],
     reportDate: DateTime.now(),
     ginsets: [],
     bays: [],
@@ -38,6 +41,7 @@ class Report {
     String? kw,
     List<String>? images,
     List<String>? tools,
+    List<int>? toolsQuantity,
     DateTime? reportDate,
     List<String>? ginsets,
     List<String>? bays,
@@ -48,6 +52,7 @@ class Report {
       kw: kw ?? this.kw,
       images: images ?? this.images,
       tools: tools ?? this.tools,
+      toolsQuantity: toolsQuantity ?? this.toolsQuantity,
       reportDate: reportDate ?? this.reportDate,
       ginsets: ginsets ?? this.ginsets,
       bays: bays ?? this.bays,
@@ -67,6 +72,7 @@ class Report {
       kw: kw,
       images: images,
       tools: tools,
+      toolsQuantity: toolsQuantity,
       reportDate: reportDate,
       ginsets: ginsets,
       bays: bays,
@@ -80,6 +86,7 @@ class Report {
       kw: entity.kw,
       images: entity.images,
       tools: entity.tools,
+      toolsQuantity: entity.toolsQuantity,
       reportDate: entity.reportDate,
       ginsets: entity.ginsets,
       bays: entity.bays,
@@ -94,6 +101,7 @@ class Report {
       kw: $kw,
       images: $images,
       tools: $tools,
+      toolsQuantity: $toolsQuantity,
       reportDate: $reportDate,
       ginsets: $ginsets,
       bays: $bays,

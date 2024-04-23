@@ -33,7 +33,10 @@ class IndukFinalPage extends StatefulWidget {
 
 class _IndukFinalPageState extends State<IndukFinalPage> {
   List<File> selectedImages = [];
-  List<TextEditingController> toolController = [TextEditingController()];
+
+  List<TextEditingController> toolController = [];
+  List<TextEditingController> toolQuantityController = [];
+
   TextEditingController dateInput = TextEditingController();
   String selectedDate = '';
 
@@ -50,6 +53,29 @@ class _IndukFinalPageState extends State<IndukFinalPage> {
     report = Report.empty;
 
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _addToolAndQuantity();
+    });
+  }
+
+  _addToolAndQuantity() {
+    setState(() {
+      toolController.add(TextEditingController());
+      toolQuantityController.add(TextEditingController());
+    });
+  }
+
+  _removeToolAndQuantity(int index) {
+    setState(() {
+      toolController[index].clear();
+      toolController[index].dispose();
+      toolController.removeAt(index);
+
+      toolQuantityController[index].clear();
+      toolQuantityController[index].dispose();
+      toolQuantityController.removeAt(index);
+    });
   }
 
   @override
@@ -154,95 +180,169 @@ class _IndukFinalPageState extends State<IndukFinalPage> {
                       height: 8,
                     ),
                     Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: List.generate(
-                        toolController.length,
-                        (index) => Row(
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                key: const Key('bayPage_nameBay_textField'),
-                                controller: toolController[index],
-                                autofocus: false,
-                                decoration: InputDecoration(
-                                  helperText: '',
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondary,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      color: Theme.of(context).disabledColor,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      color:
-                                          Theme.of(context).colorScheme.error,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    borderSide: BorderSide(
-                                      color:
-                                          Theme.of(context).colorScheme.error,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  hintText: 'Masukkan nama alat kerja',
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            index != 0
-                                ? Padding(
-                                    padding: const EdgeInsets.only(bottom: 20),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          toolController[index].clear();
-                                          toolController[index].dispose();
-                                          toolController.removeAt(index);
-                                        });
-                                      },
-                                      child: Icon(
-                                        Icons.delete,
-                                        color:
-                                            Theme.of(context).colorScheme.error,
-                                        size: 35,
+                        children: [
+                          for (int i = 0; i < toolController.length; i++)
+                            Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Expanded(
+                                      flex: 3,
+                                      child: TextField(
+                                        key: Key(
+                                            'indukFinalPage_tool_textField_$i'),
+                                        controller: toolController[i],
+                                        autofocus: false,
+                                        decoration: InputDecoration(
+                                          helperText: '',
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                              width: 2,
+                                            ),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .disabledColor,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
+                                              width: 2,
+                                            ),
+                                          ),
+                                          hintText: 'Masukkan nama alat kerja',
+                                        ),
                                       ),
                                     ),
-                                  )
-                                : const SizedBox(),
-                          ],
-                        ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      flex: 1,
+                                      child: TextField(
+                                        key: Key(
+                                            'indukFinalPage_toolQuantity_textField_$i'),
+                                        controller: toolQuantityController[i],
+                                        autofocus: false,
+                                        decoration: InputDecoration(
+                                          helperText: '',
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
+                                              width: 2,
+                                            ),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .disabledColor,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
+                                              width: 1,
+                                            ),
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            borderSide: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
+                                              width: 2,
+                                            ),
+                                          ),
+                                          hintText: 'Jumlah',
+                                        ),
+                                      ),
+                                    ),
+                                    i != 0
+                                        ? Expanded(
+                                            child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 20),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                _removeToolAndQuantity(i);
+                                              },
+                                              child: Icon(
+                                                Icons.delete,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .error,
+                                                size: 35,
+                                              ),
+                                            ),
+                                          ))
+                                        : const SizedBox.shrink(),
+                                  ],
+                                )
+                              ],
+                            ),
+                        ],
                       ),
-                    ),
                     GestureDetector(
                       onTap: () {
-                        setState(() {
-                          toolController.add(TextEditingController());
-                        });
+                        _addToolAndQuantity();
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -328,6 +428,14 @@ class _IndukFinalPageState extends State<IndukFinalPage> {
                             ),
                           );
                           return;
+                        } else if (toolQuantityController
+                            .any((element) => element.text.isEmpty)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please fill all tool quantities'),
+                            ),
+                          );
+                          return;
                         }
 
                         setState(() {
@@ -335,6 +443,9 @@ class _IndukFinalPageState extends State<IndukFinalPage> {
                           report.kw = widget.kw;
                           report.tools = toolController
                               .map((controller) => controller.text)
+                              .toList();
+                          report.toolsQuantity = toolQuantityController
+                              .map((controller) => int.parse(controller.text))
                               .toList();
                           report.reportDate = DateTime.parse(selectedDate);
                           report.ginsets = widget.ginsets;

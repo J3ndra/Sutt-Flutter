@@ -4,6 +4,7 @@ class ReportEntity {
   String kw;
   List<String>? images;
   List<String>? tools;
+  List<int>? toolsQuantity;
   DateTime reportDate;
   List<String>? ginsets;
   List<String>? bays;
@@ -14,6 +15,7 @@ class ReportEntity {
     required this.kw,
     required this.images,
     required this.tools,
+    required this.toolsQuantity,
     required this.reportDate,
     required this.ginsets,
     required this.bays,
@@ -26,6 +28,7 @@ class ReportEntity {
       'kw': kw,
       'images': images,
       'tools': tools,
+      'toolsQuantity': toolsQuantity,
       'reportDate': reportDate,
       'ginsets': ginsets,
       'bays': bays,
@@ -39,6 +42,7 @@ class ReportEntity {
       kw: document['kw'] as String,
       images: (document['images'] as List?)?.map((e) => e as String).toList(),
       tools: (document['tools'] as List?)?.map((e) => e as String).toList(),
+      toolsQuantity: (document['toolsQuantity'] as List?)?.map((e) => e as int).toList(),
       reportDate: document['reportDate'].toDate(),
       ginsets: (document['ginsets'] as List?)?.map((e) => e as String).toList(),
       bays: (document['bays'] as List?)?.map((e) => e as String).toList(),
@@ -51,6 +55,7 @@ class ReportEntity {
         kw,
         images,
         tools,
+        toolsQuantity,
         reportDate,
         ginsets,
         bays,
@@ -64,6 +69,7 @@ class ReportEntity {
       kw: $kw
       images: $images
       tools: $tools
+      toolsQuantity: $toolsQuantity
       reportDate: $reportDate
       ginsets: $ginsets
       bays: $bays

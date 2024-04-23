@@ -255,7 +255,7 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '  ●   ${state.report.tools![index]}',
+                                '  ●   ${state.report.tools![index]} | ${state.report.toolsQuantity![index]} pcs',
                                 style: const TextStyle(
                                   fontSize: 16,
                                 ),
