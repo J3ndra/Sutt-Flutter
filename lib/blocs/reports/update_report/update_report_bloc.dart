@@ -13,17 +13,6 @@ class UpdateReportBloc extends Bloc<UpdateReportEvent, UpdateReportState> {
   UpdateReportBloc({
     required ReportRepository reportRepository,
   }) : _reportRepository = reportRepository, super(UpdateReportInitial()) {
-    on<GetUpdateReport>((event, emit) async {
-      emit(GetReportForUpdateLoading());
-      try {
-        Report report = await _reportRepository.getReport(event.reportId);
-        emit(GetReportForUpdateSuccess(report));
-      } catch (e) {
-        log(e.toString());
-        emit(GetReportForUpdateFailure(e.toString()));
-      }
-    });
-
     on<UpdateReport>((event, emit) async {
       emit(UpdateReportLoading());
       try {

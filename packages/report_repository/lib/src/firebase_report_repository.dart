@@ -81,26 +81,27 @@ class FirebaseReportRepository implements ReportRepository {
   @override
   Future<Report> updateReport(Report report) async {
     try {
-      // Delete old images
-      for (var imageUrl in report.images ?? []) {
-        FirebaseStorage.instance.refFromURL(imageUrl).delete();
-      }
-
       // Save new images
       List<String> imageUrls = [];
+      
+      if (report.images != null) {
+        for (var image in report.images ?? []) {
+          if (image.startsWith('gs://')) {
+            imageUrls.add(image);
+          } else {
+            File imagFile = File(image);
 
-      for (var image in report.images ?? []) {
-        File imagFile = File(image);
+            Reference firebaseStoreReference = FirebaseStorage.instance.ref().child('reports/${report.reportId}/${imagFile.path.split('/').last}');
 
-        Reference firebaseStoreReference = FirebaseStorage.instance.ref().child('reports/${report.reportId}/${imagFile.path.split('/').last}');
+            await firebaseStoreReference.putFile(imagFile);
 
-        await firebaseStoreReference.putFile(imagFile);
+            String downloadUrl = await firebaseStoreReference.getDownloadURL();
+            imageUrls.add(downloadUrl);
+          }
+        }
 
-        String downloadUrl = await firebaseStoreReference.getDownloadURL();
-        imageUrls.add(downloadUrl);
+        report.images = imageUrls;
       }
-
-      report.images = imageUrls;
 
       await reportCollection
           .doc(report.reportId)

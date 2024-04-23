@@ -19,6 +19,7 @@ class SuttDetailPage extends StatefulWidget {
 
 class _SuttDetailPageState extends State<SuttDetailPage> {
   late GetReportBloc _getReportBloc;
+  late Report _report;
 
   @override
   void initState() {
@@ -79,10 +80,8 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
                             BlocProvider<UpdateReportBloc>(
                           create: (context) => UpdateReportBloc(
                             reportRepository: FirebaseReportRepository(),
-                          )..add(
-                              GetUpdateReport(widget.reportId),
-                            ),
-                          child: const SuttEditPage(),
+                          ),
+                          child: SuttEditPage(report: _report),
                         ),
                       ));
                 }),
@@ -97,6 +96,7 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
         body: BlocBuilder<GetReportBloc, GetReportState>(
           builder: (context, state) {
             if (state is GetSingleReportSuccess) {
+              _report = state.report;
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -255,7 +255,7 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '  ●   ${state.report.tools![index]} | ${state.report.toolsQuantity![index]} pcs',
+                                '  ●   ${state.report.tools?[index]} | ${state.report.toolsQuantity?[index]} pcs',
                                 style: const TextStyle(
                                   fontSize: 16,
                                 ),

@@ -7,15 +7,6 @@ sealed class UpdateReportEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetUpdateReport extends UpdateReportEvent {
-  final String reportId;
-
-  const GetUpdateReport(this.reportId);
-
-  @override
-  List<Object> get props => [reportId];
-}
-
 class UpdateReport extends UpdateReportEvent {
   final Report report;
 

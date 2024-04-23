@@ -28,9 +28,9 @@ class _CustomImageState extends State<CustomImage>
     _imageValueNotifier = ImageValueNotifier(_imageDetail);
 
     _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 700));
+        vsync: this, duration: const Duration(milliseconds: 500));
 
-    _animation = Tween<double>(begin: 600.0, end: 400.0).animate(
+    _animation = Tween<double>(begin: 400.0, end: 200.0).animate(
         CurvedAnimation(parent: _animationController, curve: Curves.easeOut));
 
     _imageStream =
