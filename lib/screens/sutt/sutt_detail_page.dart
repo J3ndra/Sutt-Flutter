@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -20,6 +23,8 @@ class SuttDetailPage extends StatefulWidget {
 class _SuttDetailPageState extends State<SuttDetailPage> {
   late GetReportBloc _getReportBloc;
   late Report _report;
+
+  List<String> listImages = [];
 
   @override
   void initState() {
@@ -97,6 +102,7 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
           builder: (context, state) {
             if (state is GetSingleReportSuccess) {
               _report = state.report;
+              listImages = state.report.images!;
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -111,14 +117,23 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          for (var image in state.report.images ?? [])
-                            CustomImage(
-                              imageUrl: image,
-                            ),
-                        ],
+                      SizedBox(
+                        height: listImages.isEmpty ? 0 : 300,
+                        child: listImages.isEmpty
+                            ? const SizedBox()
+                            : GridView.builder(
+                              itemCount: listImages.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Center(
+                                    child: CustomImage(
+                                      imageUrl: listImages[index],
+                                    ),
+                                  );
+                                },
+                              ),
                       ),
                       const SizedBox(height: 10),
                       Row(
