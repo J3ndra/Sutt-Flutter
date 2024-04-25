@@ -86,7 +86,7 @@ class FirebaseReportRepository implements ReportRepository {
       
       if (report.images != null) {
         for (var image in report.images ?? []) {
-          if (image.startsWith('gs://')) {
+          if (image.startsWith('gs://') || image.startsWith('https://')) {
             imageUrls.add(image);
           } else {
             File imagFile = File(image);
