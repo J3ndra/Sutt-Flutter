@@ -2,6 +2,7 @@ import 'package:report_repository/src/entities/entities.dart';
 
 class Report {
   String reportId;
+  String category;
   String city;
   String kw;
   List<String>? images;
@@ -13,6 +14,7 @@ class Report {
 
   Report({
     required this.reportId,
+    required this.category,
     required this.city,
     required this.kw,
     required this.images,
@@ -25,6 +27,7 @@ class Report {
 
   static final empty = Report(
     reportId: '',
+    category: '',
     city: '',
     kw: '',
     images: [],
@@ -37,6 +40,7 @@ class Report {
 
   Report copyWith({
     String? reportId,
+    String? category,
     String? city,
     String? kw,
     List<String>? images,
@@ -48,6 +52,7 @@ class Report {
   }) {
     return Report(
       reportId: reportId ?? this.reportId,
+      category: category ?? this.category,
       city: city ?? this.city,
       kw: kw ?? this.kw,
       images: images ?? this.images,
@@ -68,6 +73,7 @@ class Report {
   ReportEntity toEntity() {
     return ReportEntity(
       reportId: reportId,
+      category: category,
       city: city,
       kw: kw,
       images: images,
@@ -82,6 +88,7 @@ class Report {
   static Report fromEntity(ReportEntity entity) {
     return Report(
       reportId: entity.reportId,
+      category: entity.category,
       city: entity.city,
       kw: entity.kw,
       images: entity.images,
@@ -97,6 +104,7 @@ class Report {
   String toString() {
     return '''Report {
       reportId: $reportId,
+      category: $category,
       city: $city,
       kw: $kw,
       images: $images,

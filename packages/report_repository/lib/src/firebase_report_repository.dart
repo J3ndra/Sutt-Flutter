@@ -44,9 +44,10 @@ class FirebaseReportRepository implements ReportRepository {
   }
 
   @override
-  Future<List<Report>> getReports(String city, String kw) {
+  Future<List<Report>> getReports(String category, String city, String kw) {
     try {
       return reportCollection
+          .where('category', isEqualTo: category)
           .where('city', isEqualTo: city)
           .where('kw', isEqualTo: kw)
           .get()

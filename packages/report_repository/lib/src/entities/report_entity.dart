@@ -1,5 +1,6 @@
 class ReportEntity {
   String reportId;
+  String category;
   String city;
   String kw;
   List<String>? images;
@@ -11,6 +12,7 @@ class ReportEntity {
 
   ReportEntity({
     required this.reportId,
+    required this.category,
     required this.city,
     required this.kw,
     required this.images,
@@ -24,6 +26,7 @@ class ReportEntity {
   Map<String, Object?> toDocument() {
     return {
       'reportId': reportId,
+      'category': category,
       'city': city,
       'kw': kw,
       'images': images,
@@ -38,6 +41,7 @@ class ReportEntity {
   static ReportEntity fromDocument(Map<String, dynamic> document) {
     return ReportEntity(
       reportId: document['reportId'] as String,
+      category: document['category'] as String,
       city: document['city'] as String,
       kw: document['kw'] as String,
       images: (document['images'] as List?)?.map((e) => e as String).toList(),
@@ -51,6 +55,7 @@ class ReportEntity {
 
   List<Object?> get props => [
         reportId,
+        category,
         city,
         kw,
         images,
@@ -65,6 +70,7 @@ class ReportEntity {
   String toString() {
     return ''''ReportEntity {
       reportId: $reportId
+      category: $category
       city: $city
       kw: $kw
       images: $images
