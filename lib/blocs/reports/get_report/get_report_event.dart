@@ -8,13 +8,14 @@ sealed class GetReportEvent extends Equatable {
 }
 
 class GetReports extends GetReportEvent {
+  final String category;
   final String city;
   final String kw;
 
-  const GetReports(this.city, this.kw);
+  const GetReports(this.category, this.city, this.kw);
 
   @override
-  List<Object> get props => [city, kw];
+  List<Object> get props => [category, city, kw];
 }
 
 class GetSingleReport extends GetReportEvent {

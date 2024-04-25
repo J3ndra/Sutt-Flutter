@@ -4,31 +4,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:report_repository/report_repository.dart';
+import 'package:sutt/blocs/reports/create_report/create_report_bloc.dart';
 import 'package:sutt/blocs/reports/delete_report/delete_report_bloc.dart';
 import 'package:sutt/blocs/reports/get_report/get_report_bloc.dart';
-import 'package:sutt/screens/sutt/sutt_detail_page.dart';
+import 'package:sutt/screens/report/report_create_ginset_page.dart';
+import 'package:sutt/screens/report/report_detail_page.dart';
 
-class SuttListPage extends StatefulWidget {
-  const SuttListPage({super.key, required this.city, required this.kw});
+class ReportListPage extends StatefulWidget {
+  const ReportListPage(
+      {super.key,
+      required this.category,
+      required this.city,
+      required this.kw});
 
+  final String category;
   final String city;
   final String kw;
 
-  static Page<void> page() =>
-      const MaterialPage<void>(child: SuttListPage(city: '', kw: ''));
+  static Page<void> page(String category, String city, String kw) =>
+      MaterialPage<void>(
+          child: ReportListPage(category: category, city: city, kw: kw));
 
   @override
-  State<SuttListPage> createState() => _SuttListPageState();
+  State<ReportListPage> createState() => _ReportListPageState();
 }
 
-class _SuttListPageState extends State<SuttListPage> {
+class _ReportListPageState extends State<ReportListPage> {
   late GetReportBloc _getReportBloc;
 
   @override
   void initState() {
-    log("City: ${widget.city}, KW: ${widget.kw}");
+    log("Category ${widget.category}, City ${widget.city}, KW ${widget.kw}");
+
     _getReportBloc = BlocProvider.of<GetReportBloc>(context);
-    _getReportBloc.add(GetReports(widget.city, widget.kw));
+    _getReportBloc.add(GetReports(widget.category, widget.city, widget.kw));
 
     super.initState();
   }
@@ -37,10 +46,10 @@ class _SuttListPageState extends State<SuttListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sutt List'),
+        title: Text('${widget.category} List'),
         titleSpacing: 0,
         leading: InkWell(
-          key: const Key('suttListPage_back_iconButton'),
+          key: const Key('reportListPage_back_iconButton'),
           child: Icon(
             Icons.arrow_back,
             color: Theme.of(context).colorScheme.onBackground,
@@ -86,7 +95,7 @@ class _SuttListPageState extends State<SuttListPage> {
                                     ),
                                   ),
                                 ],
-                                child: SuttDetailPage(
+                                child: ReportDetailPage(
                                   reportId: report.reportId,
                                 ),
                               ),
@@ -106,6 +115,32 @@ class _SuttListPageState extends State<SuttListPage> {
             );
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Theme.of(context).colorScheme.onBackground,
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                  builder: (BuildContext context) =>
+                      BlocProvider<CreateReportBloc>(
+                        create: (context) => CreateReportBloc(
+                            reportRepository: FirebaseReportRepository()),
+                        child: ReportCreateGinsetPage(
+                          category: widget.category,
+                          city: widget.city,
+                          kw: widget.kw,
+                        ),
+                      )));
+        },
+        icon: Icon(
+          Icons.add,
+          color: Theme.of(context).colorScheme.background,
+        ),
+        label: Text(
+          'Tambah Report',
+          style: TextStyle(color: Theme.of(context).colorScheme.background),
+        ),
       ),
     );
   }

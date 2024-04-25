@@ -11,27 +11,30 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:report_repository/report_repository.dart';
 import 'package:sutt/blocs/reports/create_report/create_report_bloc.dart';
 
-class IndukFinalPage extends StatefulWidget {
-  const IndukFinalPage(
+class ReportCreateFinalPage extends StatefulWidget {
+  const ReportCreateFinalPage(
       {super.key,
+      required this.category,
       required this.city,
       required this.kw,
       required this.ginsets,
-      required this.bay});
+      required this.bays});
 
+  final String category;
   final String city;
   final String kw;
   final List<String> ginsets;
-  final List<String> bay;
+  final List<String> bays;
 
   static Page<void> page() => const MaterialPage<void>(
-      child: IndukFinalPage(city: '', kw: '', ginsets: [], bay: []));
+      child: ReportCreateFinalPage(
+          category: '', city: '', kw: '', ginsets: [], bays: []));
 
   @override
-  State<IndukFinalPage> createState() => _IndukFinalPageState();
+  State<ReportCreateFinalPage> createState() => _ReportCreateFinalPageState();
 }
 
-class _IndukFinalPageState extends State<IndukFinalPage> {
+class _ReportCreateFinalPageState extends State<ReportCreateFinalPage> {
   List<File> selectedImages = [];
 
   List<TextEditingController> toolController = [];
@@ -46,9 +49,9 @@ class _IndukFinalPageState extends State<IndukFinalPage> {
 
   @override
   void initState() {
-    log("City: ${widget.city}, KW: ${widget.kw}");
+    log("Category: ${widget.category}, City: ${widget.city}, KW: ${widget.kw}");
     log("Ginsets: ${widget.ginsets}");
-    log("Bay: ${widget.bay}");
+    log("Bays: ${widget.bays}");
 
     report = Report.empty;
 
@@ -82,13 +85,12 @@ class _IndukFinalPageState extends State<IndukFinalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Work'),
+        title: const Text('Tambahkan Laporan'),
         titleSpacing: 0,
         leading: InkWell(
-          key: const Key('IndukFinalPage_back_iconButton'),
-          child: Icon(
+          key: const Key('reportCreateFinalPage_back_iconButton'),
+          child: const Icon(
             Icons.arrow_back,
-            color: Theme.of(context).colorScheme.onBackground,
           ),
           onTap: () {
             Navigator.of(context).pop();
@@ -180,166 +182,164 @@ class _IndukFinalPageState extends State<IndukFinalPage> {
                       height: 8,
                     ),
                     Column(
-                        children: [
-                          for (int i = 0; i < toolController.length; i++)
-                            Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Expanded(
-                                      flex: 3,
-                                      child: TextField(
-                                        key: Key(
-                                            'indukFinalPage_tool_textField_$i'),
-                                        controller: toolController[i],
-                                        autofocus: false,
-                                        decoration: InputDecoration(
-                                          helperText: '',
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              width: 1,
-                                            ),
+                      children: [
+                        for (int i = 0; i < toolController.length; i++)
+                          Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Expanded(
+                                    flex: 3,
+                                    child: TextField(
+                                      key: Key(
+                                          'indukFinalPage_tool_textField_$i'),
+                                      controller: toolController[i],
+                                      autofocus: false,
+                                      decoration: InputDecoration(
+                                        helperText: '',
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            width: 1,
                                           ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary,
-                                              width: 2,
-                                            ),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .disabledColor,
-                                              width: 1,
-                                            ),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .error,
-                                              width: 1,
-                                            ),
-                                          ),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .error,
-                                              width: 2,
-                                            ),
-                                          ),
-                                          hintText: 'Masukkan nama alat kerja',
                                         ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            width: 2,
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          borderSide: BorderSide(
+                                            color:
+                                                Theme.of(context).disabledColor,
+                                            width: 1,
+                                          ),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .error,
+                                            width: 1,
+                                          ),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .error,
+                                            width: 2,
+                                          ),
+                                        ),
+                                        hintText: 'Masukkan nama alat kerja',
                                       ),
                                     ),
-                                    const SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 1,
-                                      child: TextField(
-                                        key: Key(
-                                            'indukFinalPage_toolQuantity_textField_$i'),
-                                        controller: toolQuantityController[i],
-                                        autofocus: false,
-                                        decoration: InputDecoration(
-                                          helperText: '',
-                                          border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                              width: 1,
-                                            ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    flex: 1,
+                                    child: TextField(
+                                      key: Key(
+                                          'indukFinalPage_toolQuantity_textField_$i'),
+                                      controller: toolQuantityController[i],
+                                      autofocus: false,
+                                      decoration: InputDecoration(
+                                        helperText: '',
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            width: 1,
                                           ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary,
-                                              width: 2,
-                                            ),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .disabledColor,
-                                              width: 1,
-                                            ),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .error,
-                                              width: 1,
-                                            ),
-                                          ),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            borderSide: BorderSide(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .error,
-                                              width: 2,
-                                            ),
-                                          ),
-                                          hintText: 'Jumlah',
                                         ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            width: 2,
+                                          ),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          borderSide: BorderSide(
+                                            color:
+                                                Theme.of(context).disabledColor,
+                                            width: 1,
+                                          ),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .error,
+                                            width: 1,
+                                          ),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          borderSide: BorderSide(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .error,
+                                            width: 2,
+                                          ),
+                                        ),
+                                        hintText: 'Jumlah',
                                       ),
                                     ),
-                                    i != 0
-                                        ? Expanded(
-                                            child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 20),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                _removeToolAndQuantity(i);
-                                              },
-                                              child: Icon(
-                                                Icons.delete,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .error,
-                                                size: 35,
-                                              ),
+                                  ),
+                                  i != 0
+                                      ? Expanded(
+                                          child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 20),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              _removeToolAndQuantity(i);
+                                            },
+                                            child: Icon(
+                                              Icons.delete,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
+                                              size: 35,
                                             ),
-                                          ))
-                                        : const SizedBox.shrink(),
-                                  ],
-                                )
-                              ],
-                            ),
-                        ],
-                      ),
+                                          ),
+                                        ))
+                                      : const SizedBox.shrink(),
+                                ],
+                              )
+                            ],
+                          ),
+                      ],
+                    ),
                     GestureDetector(
                       onTap: () {
                         _addToolAndQuantity();
@@ -396,7 +396,7 @@ class _IndukFinalPageState extends State<IndukFinalPage> {
                       height: 32,
                     ),
                     ElevatedButton(
-                      key: const Key('workPage_save_work_elevatedButton'),
+                      key: const Key('reportCreateFinalPage_save_elevatedButton'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
                             Theme.of(context).colorScheme.onBackground,
@@ -409,7 +409,7 @@ class _IndukFinalPageState extends State<IndukFinalPage> {
                         if (selectedImages.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Please add at least one image'),
+                              content: Text('Harap masukkan setidaknya 1 foto'),
                             ),
                           );
                           return;
@@ -417,14 +417,14 @@ class _IndukFinalPageState extends State<IndukFinalPage> {
                             .any((element) => element.text.isEmpty)) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Please fill all tool names'),
+                              content: Text('Harap isi semua alat kerja'),
                             ),
                           );
                           return;
                         } else if (selectedDate.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Please select a date'),
+                              content: Text('Harap pilih tanggal laporan'),
                             ),
                           );
                           return;
@@ -432,13 +432,14 @@ class _IndukFinalPageState extends State<IndukFinalPage> {
                             .any((element) => element.text.isEmpty)) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Please fill all tool quantities'),
+                              content: Text('Harap isi semua jumlah alat kerja'),
                             ),
                           );
                           return;
                         }
 
                         setState(() {
+                          report.category = widget.category;
                           report.city = widget.city;
                           report.kw = widget.kw;
                           report.tools = toolController
@@ -449,7 +450,7 @@ class _IndukFinalPageState extends State<IndukFinalPage> {
                               .toList();
                           report.reportDate = DateTime.parse(selectedDate);
                           report.ginsets = widget.ginsets;
-                          report.bays = widget.bay;
+                          report.bays = widget.bays;
                         });
 
                         context.read<CreateReportBloc>().add(CreateReport(
@@ -459,7 +460,7 @@ class _IndukFinalPageState extends State<IndukFinalPage> {
                       child: state is CreateReportLoading
                           ? const CircularProgressIndicator()
                           : Text(
-                              'Save Work',
+                              'Simpan Report',
                               style: TextStyle(
                                   color:
                                       Theme.of(context).colorScheme.background),

@@ -14,7 +14,7 @@ class GetReportBloc extends Bloc<GetReportEvent, GetReportState> {
     on<GetReports>((event, emit) async {
       emit(GetReportLoading());
       try {
-        List<Report> reports = await _reportRepository.getReports(event.city, event.kw);
+        List<Report> reports = await _reportRepository.getReports(event.category, event.city, event.kw);
         emit(GetReportSuccess(reports));
       } catch (e) {
         emit(GetReportFailure(e.toString()));

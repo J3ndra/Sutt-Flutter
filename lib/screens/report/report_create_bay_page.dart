@@ -4,30 +4,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:report_repository/report_repository.dart';
 import 'package:sutt/blocs/reports/create_report/create_report_bloc.dart';
-import 'package:sutt/screens/induk/induk_final_page.dart';
+import 'package:sutt/screens/report/report_create_final_page.dart';
 
-class IndukBayPage extends StatefulWidget {
-  const IndukBayPage(
-      {super.key, required this.city, required this.kw, required this.ginsets});
+class ReportCreateBayPage extends StatefulWidget {
+  const ReportCreateBayPage(
+      {super.key,
+      required this.category,
+      required this.city,
+      required this.kw,
+      required this.ginsets});
 
+  final String category;
   final String city;
   final String kw;
   final List<String> ginsets;
 
   static Page<void> page() => const MaterialPage<void>(
-      child: IndukBayPage(city: '', kw: '', ginsets: []));
+      child: ReportCreateBayPage(category: '', city: '', kw: '', ginsets: []));
 
   @override
-  State<IndukBayPage> createState() => _IndukBayPageState();
+  State<ReportCreateBayPage> createState() => _ReportCreateBayPageState();
 }
 
-class _IndukBayPageState extends State<IndukBayPage> {
+class _ReportCreateBayPageState extends State<ReportCreateBayPage> {
   final List<TextEditingController> listController = [TextEditingController()];
 
   @override
   void initState() {
-    log("City: ${widget.city}, KW: ${widget.kw}");
+    log("Category: ${widget.category}, City: ${widget.city}, KW: ${widget.kw}");
     log("Ginsets: ${widget.ginsets}");
+
     super.initState();
   }
 
@@ -35,13 +41,12 @@ class _IndukBayPageState extends State<IndukBayPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Induk - Bay'),
+        title: const Text('Tambahkan Bay'),
         titleSpacing: 0,
         leading: InkWell(
-          key: const Key('indukBayPage_back_iconButton'),
-          child: Icon(
+          key: const Key('reportCreateBayPage_back_iconButton'),
+          child: const Icon(
             Icons.arrow_back,
-            color: Theme.of(context).colorScheme.onBackground,
           ),
           onTap: () {
             Navigator.of(context).pop();
@@ -172,23 +177,44 @@ class _IndukBayPageState extends State<IndukBayPage> {
       ),
       floatingActionButton: FloatingActionButton(
         key: const Key('bayPage_saveFloatingActionButton'),
+        backgroundColor: Theme.of(context).colorScheme.onBackground,
         onPressed: () {
-          Navigator.push(context, 
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => BlocProvider<CreateReportBloc>(
-              create: (context) => CreateReportBloc(
-                reportRepository: FirebaseReportRepository()
-              ),
-              child: IndukFinalPage(
-                city: widget.city,
-                kw: widget.kw,
-                ginsets: widget.ginsets,
-                bay: listController.map((e) => e.text).toList(),
-              ),
-            ),
-          ));
+          if (listController.isNotEmpty) {
+            log("Bay: ${listController.map((e) => e.text).toList()}");
+            Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) =>
+                      BlocProvider<CreateReportBloc>(
+                    create: (context) => CreateReportBloc(
+                        reportRepository: FirebaseReportRepository()),
+                    child: ReportCreateFinalPage(
+                      category: widget.category,
+                      city: widget.city,
+                      kw: widget.kw,
+                      ginsets: widget.ginsets,
+                      bays: listController.map((e) => e.text).toList(),
+                    ),
+                  ),
+                ));
+          } else {
+            for (var i = 0; i < listController.length; i++) {
+              if (listController[i].text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Nama Bay tidak boleh kosong'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+                return;
+              }
+            }
+          }
         },
-        child: const Icon(Icons.navigate_next),
+        child: Icon(
+          Icons.navigate_next,
+          color: Theme.of(context).colorScheme.background,
+        ),
       ),
     );
   }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sutt/blocs/sign_in/sign_in_bloc.dart';
-import 'package:sutt/screens/induk/induk_page.dart';
-import 'package:sutt/screens/sutt/sutt_page.dart';
+import 'package:sutt/screens/report/report_page.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -33,12 +32,12 @@ class HomeScreen extends StatelessWidget {
                 color: Theme.of(context).colorScheme.background,
                 size: MediaQuery.of(context).size.width / 4 - 16,
               ),
-              label: 'Index',
+              label: 'Induk',
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const IndukPage(),
+                    builder: (BuildContext context) => const ReportPage(category: 'Induk',),
                   ),
                 );
               },
@@ -55,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const SuttPage(),
+                    builder: (BuildContext context) => const ReportPage(category: 'Sutt',),
                   ),
                 );
               },

@@ -1,22 +1,39 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:report_repository/report_repository.dart';
 import 'package:sutt/blocs/reports/get_report/get_report_bloc.dart';
-import 'package:sutt/screens/sutt/sutt_list_page.dart';
+import 'package:sutt/screens/report/report_list_page.dart';
 
-class SuttPage extends StatelessWidget {
-  const SuttPage({super.key});
+class ReportPage extends StatefulWidget {
+  const ReportPage({super.key, required this.category});
 
-  static Page<void> page() => const MaterialPage<void>(child: SuttPage());
+  final String category;
+
+  static Page<void> page(String category) =>
+      MaterialPage<void>(child: ReportPage(category: category));
+
+  @override
+  State<ReportPage> createState() => _ReportPageState();
+}
+
+class _ReportPageState extends State<ReportPage> {
+  @override
+  void initState() {
+    log("Category ${widget.category}");
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sutt'),
+        title: Text('Report ${widget.category}'),
         titleSpacing: 0,
         leading: InkWell(
-          key: const Key('suttPage_back_iconButton'),
+          key: const Key('reportPage_back_iconButton'),
           child: Icon(
             Icons.arrow_back,
             color: Theme.of(context).colorScheme.onBackground,
@@ -32,8 +49,14 @@ class SuttPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const Text('Purwokerto'),
+            children: [
+              const Text(
+                "Purwokerto",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(
                 height: 4,
               ),
@@ -44,7 +67,8 @@ class SuttPage extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onBackground,
                       borderRadius: BorderRadius.circular(8),
                       child: InkWell(
-                        key: const Key('suttPage_purwokerto_iconButton'),
+                        key:
+                            const Key('reportPage_purwokerto_150kw_iconButton'),
                         onTap: () {
                           Navigator.push(
                               context,
@@ -54,8 +78,10 @@ class SuttPage extends StatelessWidget {
                                         create: (context) => GetReportBloc(
                                             reportRepository:
                                                 FirebaseReportRepository()),
-                                        child: const SuttListPage(
-                                            city: 'Purwokerto', kw: '150 KW')),
+                                        child: ReportListPage(
+                                            category: widget.category,
+                                            city: 'Purwokerto',
+                                            kw: '150 KW')),
                               ));
                         },
                         child: Padding(
@@ -81,17 +107,21 @@ class SuttPage extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onBackground,
                       borderRadius: BorderRadius.circular(8),
                       child: InkWell(
-                        key: const Key('suttPage_purwokerto_iconButton'),
+                        key:
+                            const Key('reportPage_purwokerto_500kw_iconButton'),
                         onTap: () {
-                          Navigator.push(context, 
+                          Navigator.push(
+                              context,
                               MaterialPageRoute<void>(
                                 builder: (BuildContext context) =>
                                     BlocProvider<GetReportBloc>(
                                         create: (context) => GetReportBloc(
                                             reportRepository:
                                                 FirebaseReportRepository()),
-                                        child: const SuttListPage(
-                                            city: 'Purwokerto', kw: '500 KW')),
+                                        child: ReportListPage(
+                                            category: widget.category,
+                                            city: 'Purwokerto',
+                                            kw: '500 KW')),
                               ));
                         },
                         child: Padding(
@@ -111,8 +141,13 @@ class SuttPage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
-              const Text('Tegal'),
+              const Text(
+                "Tegal",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(
                 height: 4,
               ),
@@ -123,7 +158,8 @@ class SuttPage extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onBackground,
                       borderRadius: BorderRadius.circular(8),
                       child: InkWell(
-                        key: const Key('suttPage_tegal_iconButton'),
+                        key:
+                            const Key('reportPage_tegal_150kw_iconButton'),
                         onTap: () {
                           Navigator.push(
                               context,
@@ -133,8 +169,10 @@ class SuttPage extends StatelessWidget {
                                         create: (context) => GetReportBloc(
                                             reportRepository:
                                                 FirebaseReportRepository()),
-                                        child: const SuttListPage(
-                                            city: 'Tegal', kw: '150 KW')),
+                                        child: ReportListPage(
+                                            category: widget.category,
+                                            city: 'Tegal',
+                                            kw: '150 KW')),
                               ));
                         },
                         child: Padding(
@@ -160,7 +198,8 @@ class SuttPage extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onBackground,
                       borderRadius: BorderRadius.circular(8),
                       child: InkWell(
-                        key: const Key('suttPage_tegal_iconButton'),
+                        key:
+                            const Key('reportPage_tegal_500kw_iconButton'),
                         onTap: () {
                           Navigator.push(
                               context,
@@ -170,8 +209,10 @@ class SuttPage extends StatelessWidget {
                                         create: (context) => GetReportBloc(
                                             reportRepository:
                                                 FirebaseReportRepository()),
-                                        child: const SuttListPage(
-                                            city: 'Tegal', kw: '500 KW')),
+                                        child: ReportListPage(
+                                            category: widget.category,
+                                            city: 'Tegal',
+                                            kw: '500 KW')),
                               ));
                         },
                         child: Padding(
@@ -191,8 +232,13 @@ class SuttPage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
-              const Text('Wonosobo'),
+              const Text(
+                "Wonosobo",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(
                 height: 4,
               ),
@@ -203,7 +249,8 @@ class SuttPage extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onBackground,
                       borderRadius: BorderRadius.circular(8),
                       child: InkWell(
-                        key: const Key('suttPage_wonosobo_iconButton'),
+                        key:
+                            const Key('reportPage_wonosobo_150kw_iconButton'),
                         onTap: () {
                           Navigator.push(
                               context,
@@ -213,8 +260,10 @@ class SuttPage extends StatelessWidget {
                                         create: (context) => GetReportBloc(
                                             reportRepository:
                                                 FirebaseReportRepository()),
-                                        child: const SuttListPage(
-                                            city: 'Wonosobo', kw: '150 KW')),
+                                        child: ReportListPage(
+                                            category: widget.category,
+                                            city: 'Wonosobo',
+                                            kw: '150 KW')),
                               ));
                         },
                         child: Padding(
@@ -240,7 +289,8 @@ class SuttPage extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onBackground,
                       borderRadius: BorderRadius.circular(8),
                       child: InkWell(
-                        key: const Key('suttPage_wonosobo_iconButton'),
+                        key:
+                            const Key('reportPage_wonosobo_500kw_iconButton'),
                         onTap: () {
                           Navigator.push(
                               context,
@@ -250,8 +300,10 @@ class SuttPage extends StatelessWidget {
                                         create: (context) => GetReportBloc(
                                             reportRepository:
                                                 FirebaseReportRepository()),
-                                        child: const SuttListPage(
-                                            city: 'Wonosobo', kw: '500 KW')),
+                                        child: ReportListPage(
+                                            category: widget.category,
+                                            city: 'Wonosobo',
+                                            kw: '500 KW')),
                               ));
                         },
                         child: Padding(
@@ -271,7 +323,6 @@ class SuttPage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
             ],
           ),
         ),

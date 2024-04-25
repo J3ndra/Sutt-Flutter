@@ -10,16 +10,20 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:report_repository/report_repository.dart';
 import 'package:sutt/blocs/reports/update_report/update_report_bloc.dart';
 
-class SuttEditPage extends StatefulWidget {
-  const SuttEditPage({super.key, required this.report});
+class ReportEditPage extends StatefulWidget {
+  const ReportEditPage({super.key, required this.report});
 
   final Report report;
 
+  static Page<void> page(Report report) => MaterialPage<void>(
+        child: ReportEditPage(report: report),
+      );
+
   @override
-  State<SuttEditPage> createState() => _SuttEditPageState();
+  State<ReportEditPage> createState() => _ReportEditPageState();
 }
 
-class _SuttEditPageState extends State<SuttEditPage> {
+class _ReportEditPageState extends State<ReportEditPage> {
   List<File> selectedImages = [];
   List<TextEditingController> toolController = [];
   List<TextEditingController> toolQuantityController = [];
@@ -29,6 +33,7 @@ class _SuttEditPageState extends State<SuttEditPage> {
   String selectedDate = '';
 
   final picker = ImagePicker();
+
   @override
   void initState() {
     super.initState();
@@ -108,7 +113,7 @@ class _SuttEditPageState extends State<SuttEditPage> {
       bayController.removeAt(index);
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return BlocListener<UpdateReportBloc, UpdateReportState>(
@@ -116,7 +121,7 @@ class _SuttEditPageState extends State<SuttEditPage> {
         if (state is UpdateReportSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Report created successfully'),
+              content: Text('Report updated successfully'),
             ),
           );
 
@@ -132,21 +137,20 @@ class _SuttEditPageState extends State<SuttEditPage> {
         }
       },
       child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Sutt Detail'),
-            titleSpacing: 0,
-            leading: InkWell(
-              key: const Key('suttDetailPage_back_iconButton'),
-              child: Icon(
-                Icons.arrow_back,
-                color: Theme.of(context).colorScheme.onBackground,
-              ),
-              onTap: () {
-                Navigator.of(context).pop();
-              },
+        appBar: AppBar(
+          title: const Text('Edit Report'),
+          titleSpacing: 0,
+          leading: InkWell(
+            key: const Key('reportEditPage_back_iconButton'),
+            child: const Icon(
+              Icons.arrow_back,
             ),
+            onTap: () {
+              Navigator.of(context).pop();
+            },
           ),
-          body: BlocBuilder<UpdateReportBloc, UpdateReportState>(
+        ),
+        body: BlocBuilder<UpdateReportBloc, UpdateReportState>(
             builder: (context, state) {
               return SingleChildScrollView(
                 child: Padding(
@@ -732,6 +736,7 @@ class _SuttEditPageState extends State<SuttEditPage> {
 
                           final report = Report(
                             reportId: widget.report.reportId,
+                            category: widget.report.category,
                             images: selectedImages.isNotEmpty
                                 ? selectedImages.map((e) => e.path).toList()
                                 : widget.report.images,
@@ -750,7 +755,7 @@ class _SuttEditPageState extends State<SuttEditPage> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
-                              Theme.of(context).colorScheme.primary,
+                              Theme.of(context).colorScheme.onBackground,
                           minimumSize: const Size.fromHeight(50),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -771,7 +776,8 @@ class _SuttEditPageState extends State<SuttEditPage> {
                 ),
               );
             },
-          )),
+          ),
+      ),
     );
   }
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -6,18 +8,18 @@ import 'package:sutt/blocs/reports/delete_report/delete_report_bloc.dart';
 import 'package:sutt/blocs/reports/get_report/get_report_bloc.dart';
 import 'package:sutt/blocs/reports/update_report/update_report_bloc.dart';
 import 'package:sutt/components/custom_image.dart';
-import 'package:sutt/screens/sutt/sutt_edit_page.dart';
+import 'package:sutt/screens/report/report_edit_page.dart';
 
-class SuttDetailPage extends StatefulWidget {
-  const SuttDetailPage({super.key, required this.reportId});
+class ReportDetailPage extends StatefulWidget {
+  const ReportDetailPage({super.key, required this.reportId});
 
   final String reportId;
 
   @override
-  State<SuttDetailPage> createState() => _SuttDetailPageState();
+  State<ReportDetailPage> createState() => _ReportDetailPageState();
 }
 
-class _SuttDetailPageState extends State<SuttDetailPage> {
+class _ReportDetailPageState extends State<ReportDetailPage> {
   late GetReportBloc _getReportBloc;
   late Report _report;
 
@@ -49,27 +51,18 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
               content: Text('Failed to delete report: ${state.message}'),
             ),
           );
-        } else if (state is DeleteReportLoading) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Deleting report...'),
-            ),
-          );
         }
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Sutt Detail'),
+          title: const Text('Report Detail'),
           titleSpacing: 0,
           leading: InkWell(
-            key: const Key('suttDetailPage_back_iconButton'),
-            child: Icon(
-              Icons.arrow_back,
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
+            key: const Key('report_detail_back_button'),
             onTap: () {
-              Navigator.of(context).pop();
+              Navigator.pop(context);
             },
+            child: const Icon(Icons.arrow_back),
           ),
           actions: [
             PopupMenuButton(itemBuilder: (context) {
@@ -83,7 +76,7 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
                           create: (context) => UpdateReportBloc(
                             reportRepository: FirebaseReportRepository(),
                           ),
-                          child: SuttEditPage(report: _report),
+                          child: ReportEditPage(report: _report),
                         ),
                       ));
                 }),
@@ -100,9 +93,12 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
             if (state is GetSingleReportSuccess) {
               _report = state.report;
               listImages = state.report.images!;
+              for (var i in listImages) {
+                log(i);
+              }
               return SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +115,7 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
                         child: listImages.isEmpty
                             ? const SizedBox()
                             : GridView.builder(
-                              itemCount: listImages.length,
+                                itemCount: listImages.length,
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 3),
@@ -210,6 +206,7 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
                         ),
                       ),
                       ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: state.report.ginsets?.length ?? 0,
                         itemBuilder: (context, index) {
@@ -235,6 +232,7 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
                         ),
                       ),
                       ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: state.report.bays?.length ?? 0,
                         itemBuilder: (context, index) {
@@ -260,6 +258,7 @@ class _SuttDetailPageState extends State<SuttDetailPage> {
                         ),
                       ),
                       ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: state.report.tools?.length ?? 0,
                         itemBuilder: (context, index) {
