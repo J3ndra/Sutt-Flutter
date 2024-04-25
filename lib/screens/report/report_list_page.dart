@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:report_repository/report_repository.dart';
+import 'package:sutt/blocs/Export/export_bloc.dart';
 import 'package:sutt/blocs/reports/create_report/create_report_bloc.dart';
 import 'package:sutt/blocs/reports/delete_report/delete_report_bloc.dart';
 import 'package:sutt/blocs/reports/get_report/get_report_bloc.dart';
@@ -93,6 +94,9 @@ class _ReportListPageState extends State<ReportListPage> {
                                       reportRepository:
                                           FirebaseReportRepository(),
                                     ),
+                                  ),
+                                  BlocProvider(
+                                    create: (context) => ExportBloc(),
                                   ),
                                 ],
                                 child: ReportDetailPage(

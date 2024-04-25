@@ -1,9 +1,12 @@
 import 'dart:developer';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:report_repository/report_repository.dart';
+import 'package:sutt/blocs/Export/export_bloc.dart';
 import 'package:sutt/blocs/reports/delete_report/delete_report_bloc.dart';
 import 'package:sutt/blocs/reports/get_report/get_report_bloc.dart';
 import 'package:sutt/blocs/reports/update_report/update_report_bloc.dart';
@@ -35,24 +38,45 @@ class _ReportDetailPageState extends State<ReportDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DeleteReportBloc, DeleteReportState>(
-      listener: (context, state) {
-        if (state is DeleteReportSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Report deleted successfully'),
-            ),
-          );
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<DeleteReportBloc, DeleteReportState>(
+          listener: (context, state) {
+            if (state is DeleteReportSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Report deleted successfully'),
+                ),
+              );
 
-          Navigator.popUntil(context, (route) => route.isFirst);
-        } else if (state is DeleteReportFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Failed to delete report: ${state.message}'),
-            ),
-          );
-        }
-      },
+              Navigator.popUntil(context, (route) => route.isFirst);
+            } else if (state is DeleteReportFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Failed to delete report: //${state.message}'),
+                ),
+              );
+            }
+          },
+        ),
+        BlocListener<ExportBloc, ExportState>(
+          listener: (context, state) {
+            if (state is ExportSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Report exported successfully'),
+                ),
+              );
+            } else if (state is ExportFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Failed to export report: ${state.message}'),
+                ),
+              );
+            }
+          },
+        ),
+      ],
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Report Detail'),
@@ -84,6 +108,9 @@ class _ReportDetailPageState extends State<ReportDetailPage> {
                   BlocProvider.of<DeleteReportBloc>(context)
                       .add(DeleteReport(widget.reportId));
                 }),
+                _buildPopupMenuItem('Export PDF', Icons.picture_as_pdf, () {
+                  _requestStoragePermission();
+                })
               ];
             }),
           ],
@@ -98,7 +125,8 @@ class _ReportDetailPageState extends State<ReportDetailPage> {
               }
               return SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                  padding:
+                      const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -325,5 +353,38 @@ class _ReportDetailPageState extends State<ReportDetailPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _requestStoragePermission() async {
+    final plugin = DeviceInfoPlugin();
+    final androidInfo = await plugin.androidInfo;
+    log('Android SDK version: ${androidInfo.version.sdkInt}');
+
+    Map<Permission, PermissionStatus> statuses =
+        androidInfo.version.sdkInt >= 30
+            ? await [
+                Permission.manageExternalStorage,
+              ].request()
+            : await [
+                Permission.storage,
+              ].request();
+
+    log('Permission status: $statuses');
+
+    if (statuses[Permission.storage] == PermissionStatus.denied ||
+        statuses[Permission.manageExternalStorage] == PermissionStatus.denied ||
+        statuses[Permission.storage] == PermissionStatus.restricted ||
+        statuses[Permission.manageExternalStorage] ==
+            PermissionStatus.restricted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Storage permission is required to export report'),
+        ),
+      );
+
+      return;
+    }
+
+    BlocProvider.of<ExportBloc>(context).add(ExportPdfReport(_report));
   }
 }
