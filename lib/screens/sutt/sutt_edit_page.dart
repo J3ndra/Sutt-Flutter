@@ -673,20 +673,58 @@ class _SuttEditPageState extends State<SuttEditPage> {
                           List<String> bays = [];
 
                           for (var i = 0; i < toolController.length; i++) {
+
+                            if (i == 0) {
+                              if (toolController[i].text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Alat kerja tidak boleh kosong'),
+                                  ),
+                                );
+                                return;
+                              }
+                            }
+
                             if (toolController[i].text.isNotEmpty) {
                               tools.add(toolController[i].text);
-                              toolsQuantity.add(
-                                  int.parse(toolQuantityController[i].text));
+                              if (toolQuantityController[i].text.isNotEmpty) {
+                                toolsQuantity
+                                    .add(int.parse(toolQuantityController[i].text));
+                              } else {
+                                toolsQuantity.add(0);
+                              }
                             }
                           }
 
                           for (var i = 0; i < ginsetController.length; i++) {
+                            if (i == 0) {
+                              if (ginsetController[i].text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Ginset tidak boleh kosong'),
+                                  ),
+                                );
+                                return;
+                              }
+                            }
+
                             if (ginsetController[i].text.isNotEmpty) {
                               ginsets.add(ginsetController[i].text);
                             }
                           }
 
                           for (var i = 0; i < bayController.length; i++) {
+                            if (i == 0) {
+                              if (bayController[i].text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Bay tidak boleh kosong'),
+                                  ),
+                                );
+                                return;
+                              }
+                            }
+
                             if (bayController[i].text.isNotEmpty) {
                               bays.add(bayController[i].text);
                             }
