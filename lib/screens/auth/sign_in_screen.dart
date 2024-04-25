@@ -114,7 +114,14 @@ class _SignInScreenState extends State<SignInScreen> {
                               );
                         }
                       },
-                      child: const Text('Sign In'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.onBackground,
+                        minimumSize: const Size.fromHeight(50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text('Sign In', style: TextStyle(color: Theme.of(context).colorScheme.background),),
                     )
                   : const CircularProgressIndicator(),
             ],
