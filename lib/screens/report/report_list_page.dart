@@ -8,7 +8,7 @@ import 'package:sutt/blocs/Export/export_bloc.dart';
 import 'package:sutt/blocs/reports/create_report/create_report_bloc.dart';
 import 'package:sutt/blocs/reports/delete_report/delete_report_bloc.dart';
 import 'package:sutt/blocs/reports/get_report/get_report_bloc.dart';
-import 'package:sutt/screens/report/report_create_ginset_page.dart';
+import 'package:sutt/screens/report/report_create_gistet_page.dart';
 import 'package:sutt/screens/report/report_detail_page.dart';
 
 class ReportListPage extends StatefulWidget {
@@ -130,7 +130,7 @@ class _ReportListPageState extends State<ReportListPage> {
                       BlocProvider<CreateReportBloc>(
                         create: (context) => CreateReportBloc(
                             reportRepository: FirebaseReportRepository()),
-                        child: ReportCreateGinsetPage(
+                        child: ReportCreateGistetPage(
                           category: widget.category,
                           city: widget.city,
                           kw: widget.kw,

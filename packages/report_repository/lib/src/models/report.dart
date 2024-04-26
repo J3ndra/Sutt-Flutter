@@ -9,7 +9,7 @@ class Report {
   List<String>? tools;
   List<int>? toolsQuantity;
   DateTime reportDate;
-  List<String>? ginsets;
+  List<String>? gistets;
   List<String>? bays;
 
   Report({
@@ -21,7 +21,7 @@ class Report {
     required this.tools,
     required this.toolsQuantity,
     required this.reportDate,
-    required this.ginsets,
+    required this.gistets,
     required this.bays,
   });
 
@@ -34,7 +34,7 @@ class Report {
     tools: [],
     toolsQuantity: [],
     reportDate: DateTime.now(),
-    ginsets: [],
+    gistets: [],
     bays: [],
   );
 
@@ -47,7 +47,7 @@ class Report {
     List<String>? tools,
     List<int>? toolsQuantity,
     DateTime? reportDate,
-    List<String>? ginsets,
+    List<String>? gistets,
     List<String>? bays,
   }) {
     return Report(
@@ -59,7 +59,7 @@ class Report {
       tools: tools ?? this.tools,
       toolsQuantity: toolsQuantity ?? this.toolsQuantity,
       reportDate: reportDate ?? this.reportDate,
-      ginsets: ginsets ?? this.ginsets,
+      gistets: gistets ?? this.gistets,
       bays: bays ?? this.bays,
     );
   }
@@ -80,7 +80,7 @@ class Report {
       tools: tools,
       toolsQuantity: toolsQuantity,
       reportDate: reportDate,
-      ginsets: ginsets,
+      gistets: gistets,
       bays: bays,
     );
   }
@@ -95,7 +95,7 @@ class Report {
       tools: entity.tools,
       toolsQuantity: entity.toolsQuantity,
       reportDate: entity.reportDate,
-      ginsets: entity.ginsets,
+      gistets: entity.gistets,
       bays: entity.bays,
     );
   }
@@ -111,7 +111,7 @@ class Report {
       tools: $tools,
       toolsQuantity: $toolsQuantity,
       reportDate: $reportDate,
-      ginsets: $ginsets,
+      gistets: $gistets,
       bays: $bays,
     }''';
   }

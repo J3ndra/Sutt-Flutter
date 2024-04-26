@@ -27,7 +27,7 @@ class _ReportEditPageState extends State<ReportEditPage> {
   List<File> selectedImages = [];
   List<TextEditingController> toolController = [];
   List<TextEditingController> toolQuantityController = [];
-  List<TextEditingController> ginsetController = [];
+  List<TextEditingController> gistetController = [];
   List<TextEditingController> bayController = [];
   TextEditingController dateInput = TextEditingController();
   String selectedDate = '';
@@ -46,10 +46,10 @@ class _ReportEditPageState extends State<ReportEditPage> {
       toolQuantityController.add(newQuantityController);
     }
 
-    for (var i = 0; i < widget.report.ginsets!.length; i++) {
+    for (var i = 0; i < widget.report.gistets!.length; i++) {
       var newController =
-          TextEditingController(text: widget.report.ginsets![i]);
-      ginsetController.add(newController);
+          TextEditingController(text: widget.report.gistets![i]);
+      gistetController.add(newController);
     }
 
     for (var i = 0; i < widget.report.bays!.length; i++) {
@@ -59,7 +59,7 @@ class _ReportEditPageState extends State<ReportEditPage> {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _addToolAndQuantity();
-      _addGinset();
+      _addGistet();
       _addBay();
     });
   }
@@ -73,10 +73,10 @@ class _ReportEditPageState extends State<ReportEditPage> {
     });
   }
 
-  _addGinset() {
+  _addGistet() {
     setState(() {
       var newController = TextEditingController();
-      ginsetController.add(newController);
+      gistetController.add(newController);
     });
   }
 
@@ -98,11 +98,11 @@ class _ReportEditPageState extends State<ReportEditPage> {
     });
   }
 
-  _removeGinset(int index) {
+  _removeGistet(int index) {
     setState(() {
-      ginsetController[index].clear();
-      ginsetController[index].dispose();
-      ginsetController.removeAt(index);
+      gistetController[index].clear();
+      gistetController[index].dispose();
+      gistetController.removeAt(index);
     });
   }
 
@@ -422,7 +422,7 @@ class _ReportEditPageState extends State<ReportEditPage> {
                         height: 16,
                       ),
                       const Text(
-                        "Ginset",
+                        "Gistet",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -435,14 +435,14 @@ class _ReportEditPageState extends State<ReportEditPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: List.generate(
-                          ginsetController.length,
+                          gistetController.length,
                           (index) => Row(
                             children: [
                               Expanded(
                                 child: TextField(
                                   key: Key(
-                                      'suttEditPage_ginset_textField_$index'),
-                                  controller: ginsetController[index],
+                                      'suttEditPage_gistet_textField_$index'),
+                                  controller: gistetController[index],
                                   autofocus: false,
                                   decoration: InputDecoration(
                                     helperText: '',
@@ -502,7 +502,7 @@ class _ReportEditPageState extends State<ReportEditPage> {
                                         onTap: () {
                                           setState(
                                             () {
-                                              _removeGinset(index);
+                                              _removeGistet(index);
                                             },
                                           );
                                         },
@@ -522,9 +522,9 @@ class _ReportEditPageState extends State<ReportEditPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          log('Add ginset');
+                          // log('Add ginset');
                           setState(() {
-                            _addGinset();
+                            _addGistet();
                           });
                         },
                         child: Container(
@@ -534,7 +534,7 @@ class _ReportEditPageState extends State<ReportEditPage> {
                               color: Theme.of(context).colorScheme.primary,
                               borderRadius: BorderRadius.circular(10)),
                           child: Text(
-                            "Tambah ginset",
+                            "Tambah gistet",
                             style: TextStyle(
                                 color: Theme.of(context).colorScheme.onPrimary,
                                 fontSize: 16,
@@ -673,7 +673,7 @@ class _ReportEditPageState extends State<ReportEditPage> {
                         onPressed: () async {
                           List<String> tools = [];
                           List<int> toolsQuantity = [];
-                          List<String> ginsets = [];
+                          List<String> gistets = [];
                           List<String> bays = [];
 
                           for (var i = 0; i < toolController.length; i++) {
@@ -700,20 +700,20 @@ class _ReportEditPageState extends State<ReportEditPage> {
                             }
                           }
 
-                          for (var i = 0; i < ginsetController.length; i++) {
+                          for (var i = 0; i < gistetController.length; i++) {
                             if (i == 0) {
-                              if (ginsetController[i].text.isEmpty) {
+                              if (gistetController[i].text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text('Ginset tidak boleh kosong'),
+                                    content: Text('Gistet tidak boleh kosong'),
                                   ),
                                 );
                                 return;
                               }
                             }
 
-                            if (ginsetController[i].text.isNotEmpty) {
-                              ginsets.add(ginsetController[i].text);
+                            if (gistetController[i].text.isNotEmpty) {
+                              gistets.add(gistetController[i].text);
                             }
                           }
 
@@ -742,7 +742,7 @@ class _ReportEditPageState extends State<ReportEditPage> {
                                 : widget.report.images,
                             tools: tools,
                             toolsQuantity: toolsQuantity,
-                            ginsets: ginsets,
+                            gistets: gistets,
                             bays: bays,
                             city: widget.report.city,
                             kw: widget.report.kw,

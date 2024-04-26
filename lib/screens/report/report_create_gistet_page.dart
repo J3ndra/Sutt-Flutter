@@ -6,8 +6,8 @@ import 'package:report_repository/report_repository.dart';
 import 'package:sutt/blocs/reports/create_report/create_report_bloc.dart';
 import 'package:sutt/screens/report/report_create_bay_page.dart';
 
-class ReportCreateGinsetPage extends StatefulWidget {
-  const ReportCreateGinsetPage(
+class ReportCreateGistetPage extends StatefulWidget {
+  const ReportCreateGistetPage(
       {super.key,
       required this.category,
       required this.city,
@@ -18,13 +18,13 @@ class ReportCreateGinsetPage extends StatefulWidget {
   final String kw;
 
   static Page<void> page() => const MaterialPage<void>(
-      child: ReportCreateGinsetPage(category: '', city: '', kw: ''));
+      child: ReportCreateGistetPage(category: '', city: '', kw: ''));
 
   @override
-  State<ReportCreateGinsetPage> createState() => _ReportCreateGinsetPageState();
+  State<ReportCreateGistetPage> createState() => _ReportCreateGistetPageState();
 }
 
-class _ReportCreateGinsetPageState extends State<ReportCreateGinsetPage> {
+class _ReportCreateGistetPageState extends State<ReportCreateGistetPage> {
   final List<TextEditingController> listController = [];
 
   @override
@@ -193,7 +193,7 @@ class _ReportCreateGinsetPageState extends State<ReportCreateGinsetPage> {
                                 category: widget.category,
                                 city: widget.city,
                                 kw: widget.kw,
-                                ginsets: listController
+                                gistets: listController
                                     .map((e) => e.text)
                                     .toList()))));
           } else {

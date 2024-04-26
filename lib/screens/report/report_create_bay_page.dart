@@ -12,15 +12,15 @@ class ReportCreateBayPage extends StatefulWidget {
       required this.category,
       required this.city,
       required this.kw,
-      required this.ginsets});
+      required this.gistets});
 
   final String category;
   final String city;
   final String kw;
-  final List<String> ginsets;
+  final List<String> gistets;
 
   static Page<void> page() => const MaterialPage<void>(
-      child: ReportCreateBayPage(category: '', city: '', kw: '', ginsets: []));
+      child: ReportCreateBayPage(category: '', city: '', kw: '', gistets: []));
 
   @override
   State<ReportCreateBayPage> createState() => _ReportCreateBayPageState();
@@ -32,7 +32,7 @@ class _ReportCreateBayPageState extends State<ReportCreateBayPage> {
   @override
   void initState() {
     log("Category: ${widget.category}, City: ${widget.city}, KW: ${widget.kw}");
-    log("Ginsets: ${widget.ginsets}");
+    log("Gistets: ${widget.gistets}");
 
     super.initState();
   }
@@ -192,7 +192,7 @@ class _ReportCreateBayPageState extends State<ReportCreateBayPage> {
                       category: widget.category,
                       city: widget.city,
                       kw: widget.kw,
-                      ginsets: widget.ginsets,
+                      gistets: widget.gistets,
                       bays: listController.map((e) => e.text).toList(),
                     ),
                   ),

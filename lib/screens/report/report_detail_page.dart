@@ -262,7 +262,7 @@ class _ReportDetailPageState extends State<ReportDetailPage> {
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        'Ginset',
+                        'Gistet',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -271,13 +271,13 @@ class _ReportDetailPageState extends State<ReportDetailPage> {
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: state.report.ginsets?.length ?? 0,
+                        itemCount: state.report.gistets?.length ?? 0,
                         itemBuilder: (context, index) {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '  ●  ${state.report.ginsets![index]}',
+                                '  ●  ${state.report.gistets![index]}',
                                 style: const TextStyle(
                                   fontSize: 16,
                                 ),

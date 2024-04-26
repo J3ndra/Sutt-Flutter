@@ -7,7 +7,7 @@ class ReportEntity {
   List<String>? tools;
   List<int>? toolsQuantity;
   DateTime reportDate;
-  List<String>? ginsets;
+  List<String>? gistets;
   List<String>? bays;
 
   ReportEntity({
@@ -19,7 +19,7 @@ class ReportEntity {
     required this.tools,
     required this.toolsQuantity,
     required this.reportDate,
-    required this.ginsets,
+    required this.gistets,
     required this.bays,
   });
 
@@ -33,7 +33,7 @@ class ReportEntity {
       'tools': tools,
       'toolsQuantity': toolsQuantity,
       'reportDate': reportDate,
-      'ginsets': ginsets,
+      'gistets': gistets,
       'bays': bays,
     };
   }
@@ -48,7 +48,7 @@ class ReportEntity {
       tools: (document['tools'] as List?)?.map((e) => e as String).toList(),
       toolsQuantity: (document['toolsQuantity'] as List?)?.map((e) => e as int).toList(),
       reportDate: document['reportDate'].toDate(),
-      ginsets: (document['ginsets'] as List?)?.map((e) => e as String).toList(),
+      gistets: (document['gistets'] as List?)?.map((e) => e as String).toList(),
       bays: (document['bays'] as List?)?.map((e) => e as String).toList(),
     );
   }
@@ -62,7 +62,7 @@ class ReportEntity {
         tools,
         toolsQuantity,
         reportDate,
-        ginsets,
+        gistets,
         bays,
       ];
 
@@ -77,7 +77,7 @@ class ReportEntity {
       tools: $tools
       toolsQuantity: $toolsQuantity
       reportDate: $reportDate
-      ginsets: $ginsets
+      gistets: $gistets
       bays: $bays
     }''';
   }

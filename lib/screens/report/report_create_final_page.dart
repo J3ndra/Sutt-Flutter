@@ -17,18 +17,18 @@ class ReportCreateFinalPage extends StatefulWidget {
       required this.category,
       required this.city,
       required this.kw,
-      required this.ginsets,
+      required this.gistets,
       required this.bays});
 
   final String category;
   final String city;
   final String kw;
-  final List<String> ginsets;
+  final List<String> gistets;
   final List<String> bays;
 
   static Page<void> page() => const MaterialPage<void>(
       child: ReportCreateFinalPage(
-          category: '', city: '', kw: '', ginsets: [], bays: []));
+          category: '', city: '', kw: '', gistets: [], bays: []));
 
   @override
   State<ReportCreateFinalPage> createState() => _ReportCreateFinalPageState();
@@ -50,7 +50,7 @@ class _ReportCreateFinalPageState extends State<ReportCreateFinalPage> {
   @override
   void initState() {
     log("Category: ${widget.category}, City: ${widget.city}, KW: ${widget.kw}");
-    log("Ginsets: ${widget.ginsets}");
+    log("Gistets: ${widget.gistets}");
     log("Bays: ${widget.bays}");
 
     report = Report.empty;
@@ -449,7 +449,7 @@ class _ReportCreateFinalPageState extends State<ReportCreateFinalPage> {
                               .map((controller) => int.parse(controller.text))
                               .toList();
                           report.reportDate = DateTime.parse(selectedDate);
-                          report.ginsets = widget.ginsets;
+                          report.gistets = widget.gistets;
                           report.bays = widget.bays;
                         });
 
