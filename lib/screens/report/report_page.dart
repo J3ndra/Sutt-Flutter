@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:report_repository/report_repository.dart';
+import 'package:sutt/blocs/Export/export_bloc.dart';
 import 'package:sutt/blocs/reports/get_report/get_report_bloc.dart';
 import 'package:sutt/screens/report/report_list_page.dart';
 
@@ -74,10 +75,18 @@ class _ReportPageState extends State<ReportPage> {
                               context,
                               MaterialPageRoute<void>(
                                 builder: (BuildContext context) =>
-                                    BlocProvider<GetReportBloc>(
+                                    MultiBlocProvider(
+                                        providers: [
+                                      BlocProvider<GetReportBloc>(
                                         create: (context) => GetReportBloc(
-                                            reportRepository:
-                                                FirebaseReportRepository()),
+                                          reportRepository:
+                                              FirebaseReportRepository(),
+                                        ),
+                                      ),
+                                      BlocProvider<ExportBloc>(
+                                        create: (context) => ExportBloc(),
+                                      ),
+                                    ],
                                         child: ReportListPage(
                                             category: widget.category,
                                             city: 'Purwokerto',
@@ -114,10 +123,18 @@ class _ReportPageState extends State<ReportPage> {
                               context,
                               MaterialPageRoute<void>(
                                 builder: (BuildContext context) =>
-                                    BlocProvider<GetReportBloc>(
+                                    MultiBlocProvider(
+                                        providers: [
+                                      BlocProvider<GetReportBloc>(
                                         create: (context) => GetReportBloc(
-                                            reportRepository:
-                                                FirebaseReportRepository()),
+                                          reportRepository:
+                                              FirebaseReportRepository(),
+                                        ),
+                                      ),
+                                      BlocProvider<ExportBloc>(
+                                        create: (context) => ExportBloc(),
+                                      ),
+                                    ],
                                         child: ReportListPage(
                                             category: widget.category,
                                             city: 'Purwokerto',
@@ -158,17 +175,24 @@ class _ReportPageState extends State<ReportPage> {
                       color: Theme.of(context).colorScheme.onBackground,
                       borderRadius: BorderRadius.circular(8),
                       child: InkWell(
-                        key:
-                            const Key('reportPage_tegal_150kw_iconButton'),
+                        key: const Key('reportPage_tegal_150kw_iconButton'),
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute<void>(
                                 builder: (BuildContext context) =>
-                                    BlocProvider<GetReportBloc>(
+                                    MultiBlocProvider(
+                                        providers: [
+                                      BlocProvider<GetReportBloc>(
                                         create: (context) => GetReportBloc(
-                                            reportRepository:
-                                                FirebaseReportRepository()),
+                                          reportRepository:
+                                              FirebaseReportRepository(),
+                                        ),
+                                      ),
+                                      BlocProvider<ExportBloc>(
+                                        create: (context) => ExportBloc(),
+                                      ),
+                                    ],
                                         child: ReportListPage(
                                             category: widget.category,
                                             city: 'Tegal',
@@ -198,17 +222,24 @@ class _ReportPageState extends State<ReportPage> {
                       color: Theme.of(context).colorScheme.onBackground,
                       borderRadius: BorderRadius.circular(8),
                       child: InkWell(
-                        key:
-                            const Key('reportPage_tegal_500kw_iconButton'),
+                        key: const Key('reportPage_tegal_500kw_iconButton'),
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute<void>(
                                 builder: (BuildContext context) =>
-                                    BlocProvider<GetReportBloc>(
+                                    MultiBlocProvider(
+                                        providers: [
+                                      BlocProvider<GetReportBloc>(
                                         create: (context) => GetReportBloc(
-                                            reportRepository:
-                                                FirebaseReportRepository()),
+                                          reportRepository:
+                                              FirebaseReportRepository(),
+                                        ),
+                                      ),
+                                      BlocProvider<ExportBloc>(
+                                        create: (context) => ExportBloc(),
+                                      ),
+                                    ],
                                         child: ReportListPage(
                                             category: widget.category,
                                             city: 'Tegal',
@@ -249,17 +280,24 @@ class _ReportPageState extends State<ReportPage> {
                       color: Theme.of(context).colorScheme.onBackground,
                       borderRadius: BorderRadius.circular(8),
                       child: InkWell(
-                        key:
-                            const Key('reportPage_wonosobo_150kw_iconButton'),
+                        key: const Key('reportPage_wonosobo_150kw_iconButton'),
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute<void>(
                                 builder: (BuildContext context) =>
-                                    BlocProvider<GetReportBloc>(
+                                    MultiBlocProvider(
+                                        providers: [
+                                      BlocProvider<GetReportBloc>(
                                         create: (context) => GetReportBloc(
-                                            reportRepository:
-                                                FirebaseReportRepository()),
+                                          reportRepository:
+                                              FirebaseReportRepository(),
+                                        ),
+                                      ),
+                                      BlocProvider<ExportBloc>(
+                                        create: (context) => ExportBloc(),
+                                      ),
+                                    ],
                                         child: ReportListPage(
                                             category: widget.category,
                                             city: 'Wonosobo',
@@ -289,22 +327,31 @@ class _ReportPageState extends State<ReportPage> {
                       color: Theme.of(context).colorScheme.onBackground,
                       borderRadius: BorderRadius.circular(8),
                       child: InkWell(
-                        key:
-                            const Key('reportPage_wonosobo_500kw_iconButton'),
+                        key: const Key('reportPage_wonosobo_500kw_iconButton'),
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (BuildContext context) =>
-                                    BlocProvider<GetReportBloc>(
-                                        create: (context) => GetReportBloc(
-                                            reportRepository:
-                                                FirebaseReportRepository()),
-                                        child: ReportListPage(
-                                            category: widget.category,
-                                            city: 'Wonosobo',
-                                            kw: '500 KW')),
-                              ));
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  MultiBlocProvider(
+                                providers: [
+                                  BlocProvider<GetReportBloc>(
+                                    create: (context) => GetReportBloc(
+                                      reportRepository:
+                                          FirebaseReportRepository(),
+                                    ),
+                                  ),
+                                  BlocProvider<ExportBloc>(
+                                    create: (context) => ExportBloc(),
+                                  ),
+                                ],
+                                child: ReportListPage(
+                                    category: widget.category,
+                                    city: 'Wonosobo',
+                                    kw: '500 KW'),
+                              ),
+                            ),
+                          );
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(16),
