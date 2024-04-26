@@ -5,7 +5,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:report_repository/report_repository.dart';
 import 'package:pdf/pdf.dart';
@@ -52,13 +51,15 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
                       style: pw.TextStyle(
                           fontSize: 24, fontWeight: pw.FontWeight.bold)),
                   pw.SizedBox(height: 20),
-                  for (var image in images)
-                    pw.Row(
-                      children: [
-                        pw.Image(pw.MemoryImage(image),
-                          width: 100, height: 100, fit: pw.BoxFit.fill),
-                      ],
-                    ),
+                  pw.Row(children: [
+                    for (var image in images)
+                      pw.Image(
+                        pw.MemoryImage(image),
+                        width: 100,
+                        height: 100,
+                        fit: pw.BoxFit.fill,
+                      ),
+                  ], mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly),
                   pw.SizedBox(height: 20),
                   pw.Text('Category: ${event.report.category}'),
                   pw.SizedBox(height: 10),
@@ -84,7 +85,7 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
         log("File Path: ${file.path}");
         await file.writeAsBytes(await doc.save());
 
-        OpenFile.open(file.path);
+        emit(ExportSuccess(file.path));
       } catch (e) {
         log(e.toString());
         emit(ExportFailure(e.toString()));

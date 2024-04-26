@@ -4,6 +4,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:report_repository/report_repository.dart';
 import 'package:sutt/blocs/Export/export_bloc.dart';
@@ -63,8 +64,42 @@ class _ReportDetailPageState extends State<ReportDetailPage> {
           listener: (context, state) {
             if (state is ExportSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Report exported successfully'),
+                SnackBar(
+                  elevation: 0,
+                  content: Card(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    elevation: 1,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                              child: Text(
+                            'Report exported successfully',
+                            style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.background),
+                          )),
+                          SnackBarAction(
+                            label: "Lihat PDF",
+                            textColor: Theme.of(context).colorScheme.background,
+                            onPressed: () {
+                              OpenFile.open(state.filePath);
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  backgroundColor: Colors.transparent,
+                  duration: const Duration(seconds: 5),
                 ),
               );
             } else if (state is ExportFailure) {
