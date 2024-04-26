@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:report_repository/report_repository.dart';
-import 'package:sutt/blocs/Export/export_bloc.dart';
+import 'package:sutt/blocs/export/export_bloc.dart';
 import 'package:sutt/blocs/reports/get_report/get_report_bloc.dart';
 import 'package:sutt/screens/report/report_list_page.dart';
 

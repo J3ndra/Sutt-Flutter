@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:report_repository/report_repository.dart';
-import 'package:sutt/blocs/Export/export_bloc.dart';
+import 'package:sutt/blocs/export/export_bloc.dart';
 import 'package:sutt/blocs/reports/create_report/create_report_bloc.dart';
 import 'package:sutt/blocs/reports/delete_report/delete_report_bloc.dart';
 import 'package:sutt/blocs/reports/get_report/get_report_bloc.dart';
