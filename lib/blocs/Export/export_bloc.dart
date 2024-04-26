@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:excel/excel.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -135,62 +134,6 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
                 ],
               ),
             ],
-            // build: (pw.Context context) {
-            //   return pw.Center(
-            //     child: pw.Column(
-            //       children: [
-            //         pw.Text('Report Detail',
-            //             style: pw.TextStyle(
-            //                 fontSize: 24, fontWeight: pw.FontWeight.bold)),
-            //         pw.SizedBox(height: 20),
-            //         pw.GridView(
-            //           crossAxisCount: 3,
-            //           childAspectRatio: 1.0,
-            //           children: [
-            //             for (var image in images)
-            //               pw.Image(
-            //                 pw.MemoryImage(image),
-            //                 width: 100,
-            //                 height: 100,
-            //                 fit: pw.BoxFit.fill,
-            //               ),
-            //           ],
-            //         ),
-            //         pw.SizedBox(height: 20),
-            //         pw.Text('Category: ${event.report.category}'),
-            //         pw.SizedBox(height: 10),
-            //         pw.Row(
-            //           mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
-            //           children: [
-            //             pw.Text('City: ${event.report.city}'),
-            //             pw.SizedBox(width: 10),
-            //             pw.Text('KW: ${event.report.kw}'),
-            //             pw.SizedBox(width: 10),
-            //             pw.Text(
-            //                 'Tanggal Pekerjaan: ${DateFormat('yyyy-MM-dd').format(event.report.reportDate)}'),
-            //           ],
-            //         ),
-            //         pw.SizedBox(height: 20),
-            //         pw.Row(
-            //           mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
-            //           children: [
-            //             pw.TableHelper.fromTextArray(
-            //               context: context,
-            //               data: <List<String>>[
-            //                 <String>['Gistets', 'Bays', 'Alat Kerja'],
-            //                 <String>[
-            //                   event.report.gistets!.join("\n"),
-            //                   event.report.bays!.join("\n"),
-            //                   "${event.report.tools!.join("\n")} (${event.report.toolsQuantity!.join("\n")} pcs)"
-            //                 ],
-            //               ],
-            //             ),
-            //           ],
-            //         ),
-            //       ],
-            //     ),
-            //   );
-            // },
           ),
         );
 
