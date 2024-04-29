@@ -47,12 +47,17 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
             child: Column(
               children: [
                 const Text(
                   'PDKB SATRIA',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                const Image(
+                  image: AssetImage('assets/logo.png'),
+                  height: 100,
                 ),
                 const SizedBox(height: kToolbarHeight),
                 TabBar(
