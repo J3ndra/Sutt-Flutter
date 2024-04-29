@@ -51,7 +51,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
             child: Column(
               children: [
                 const Text(
-                  'PLN',
+                  'PDKB SATRIA',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: kToolbarHeight),
