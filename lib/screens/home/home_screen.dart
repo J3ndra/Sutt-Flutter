@@ -23,43 +23,58 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Align(
         alignment: const Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            MenuButton(
-              icon: Icon(
-                Icons.edit_note,
-                color: Theme.of(context).colorScheme.background,
-                size: MediaQuery.of(context).size.width / 4 - 16,
-              ),
-              label: 'Induk',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const ReportPage(category: 'Induk',),
-                  ),
-                );
-              },
+        child: Container(
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width - 32,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/logo.png'),
+              fit: BoxFit.fitWidth,
+              opacity: 0.5,
             ),
-            const SizedBox(height: 8),
-            MenuButton(
-              icon: Icon(
-                Icons.manage_search,
-                color: Theme.of(context).colorScheme.background,
-                size: MediaQuery.of(context).size.width / 4 - 16,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              MenuButton(
+                icon: Icon(
+                  Icons.edit_note,
+                  color: Theme.of(context).colorScheme.background,
+                  size: MediaQuery.of(context).size.width / 4 - 16,
+                ),
+                label: 'Induk',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const ReportPage(
+                        category: 'Induk',
+                      ),
+                    ),
+                  );
+                },
               ),
-              label: 'Sutt',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const ReportPage(category: 'Sutt',),
-                  ),
-                );
-              },
-            ),
-          ],
+              const SizedBox(height: 8),
+              MenuButton(
+                icon: Icon(
+                  Icons.manage_search,
+                  color: Theme.of(context).colorScheme.background,
+                  size: MediaQuery.of(context).size.width / 4 - 16,
+                ),
+                label: 'Sutt',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const ReportPage(
+                        category: 'Sutt',
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
