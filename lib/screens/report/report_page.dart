@@ -52,7 +52,7 @@ class _ReportPageState extends State<ReportPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Purwokerto",
+                "ULTG PURWOKERTO",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -89,15 +89,15 @@ class _ReportPageState extends State<ReportPage> {
                                     ],
                                         child: ReportListPage(
                                             category: widget.category,
-                                            city: 'Purwokerto',
-                                            kw: '150 KW')),
+                                            city: 'ULTG PURWOKERTO',
+                                            kw: '150 KV')),
                               ));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(16),
                           child: Column(
                             children: <Widget>[
-                              Text('150 KW',
+                              Text('150 KV',
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -137,15 +137,15 @@ class _ReportPageState extends State<ReportPage> {
                                     ],
                                         child: ReportListPage(
                                             category: widget.category,
-                                            city: 'Purwokerto',
-                                            kw: '500 KW')),
+                                            city: 'ULTG PURWOKERTO',
+                                            kw: '500 KV')),
                               ));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(16),
                           child: Column(
                             children: <Widget>[
-                              Text('500 KW',
+                              Text('500 KV',
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -158,8 +158,11 @@ class _ReportPageState extends State<ReportPage> {
                   ),
                 ],
               ),
+              const SizedBox(
+                height: 16,
+              ),
               const Text(
-                "Tegal",
+                "ULTG TEGAL",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -195,15 +198,15 @@ class _ReportPageState extends State<ReportPage> {
                                     ],
                                         child: ReportListPage(
                                             category: widget.category,
-                                            city: 'Tegal',
-                                            kw: '150 KW')),
+                                            city: 'ULTG TEGAL',
+                                            kw: '150 KV')),
                               ));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(16),
                           child: Column(
                             children: <Widget>[
-                              Text('150 KW',
+                              Text('150 KV',
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -242,15 +245,15 @@ class _ReportPageState extends State<ReportPage> {
                                     ],
                                         child: ReportListPage(
                                             category: widget.category,
-                                            city: 'Tegal',
-                                            kw: '500 KW')),
+                                            city: 'ULTG TEGAL',
+                                            kw: '500 KV')),
                               ));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(16),
                           child: Column(
                             children: <Widget>[
-                              Text('500 KW',
+                              Text('500 KV',
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -263,8 +266,11 @@ class _ReportPageState extends State<ReportPage> {
                   ),
                 ],
               ),
+              const SizedBox(
+                height: 16,
+              ),
               const Text(
-                "Wonosobo",
+                "ULTG WONOSOBO",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -300,15 +306,15 @@ class _ReportPageState extends State<ReportPage> {
                                     ],
                                         child: ReportListPage(
                                             category: widget.category,
-                                            city: 'Wonosobo',
-                                            kw: '150 KW')),
+                                            city: 'ULTG WONOSOBO',
+                                            kw: '150 KV')),
                               ));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(16),
                           child: Column(
                             children: <Widget>[
-                              Text('150 KW',
+                              Text('150 KV',
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
@@ -347,8 +353,8 @@ class _ReportPageState extends State<ReportPage> {
                                 ],
                                 child: ReportListPage(
                                     category: widget.category,
-                                    city: 'Wonosobo',
-                                    kw: '500 KW'),
+                                    city: 'ULTG WONOSOBO',
+                                    kw: '500 KV'),
                               ),
                             ),
                           );
@@ -357,7 +363,7 @@ class _ReportPageState extends State<ReportPage> {
                           padding: const EdgeInsets.all(16),
                           child: Column(
                             children: <Widget>[
-                              Text('500 KW',
+                              Text('500 KV',
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme
