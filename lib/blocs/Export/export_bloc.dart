@@ -212,18 +212,21 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
             for (var j = 0; j < event.reports[i].gistets!.length; j++) {
               if (event.reports[i].gistets != null &&
                   event.reports[i].gistets!.length > j) {
-                log("Gistets: ${event.reports[i].gistets![j]}");
+                log("Gistets bloc: ${event.reports[i].gistets![j]}");
                 gistets.add(event.reports[i].gistets![j]);
               } else {
                 log("Gistets or index out of bounds for event");
               }
             }
+            sheet.cell(CellIndex.indexByString("F${i + 2}")).value =
+                TextCellValue(gistets.join("\n"));
+            gistets.clear();
           } else {
             log("Gistets is null for event $i");
           }
         }
-        sheet.cell(CellIndex.indexByString("F2")).value =
-            TextCellValue(gistets.join("\n"));
+        // sheet.cell(CellIndex.indexByString("F2")).value =
+        //     TextCellValue(gistets.join("\n"));
 
         List<String> bays = [];
         sheet.cell(CellIndex.indexByString("G1")).value =
@@ -239,12 +242,14 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
                 log("Bays or index out of bounds for event");
               }
             }
+            sheet.cell(CellIndex.indexByString("G${i + 2}")).value =
+                TextCellValue(bays.join("\n"));
+
+            bays.clear();
           } else {
             log("Bays is null for event $i");
           }
         }
-        sheet.cell(CellIndex.indexByString("G2")).value =
-            TextCellValue(bays.join("\n"));
 
         List<String> tools = [];
         List<int> toolsQuantity = [];
@@ -262,12 +267,15 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
                 log("Tools or index out of bounds for event");
               }
             }
+            sheet.cell(CellIndex.indexByString("H${i + 2}")).value = TextCellValue(
+                "${tools.join("\n")} (${toolsQuantity.join("\n")})");
+
+            tools.clear();
+            toolsQuantity.clear();
           } else {
             log("Tools is null for event $i");
           }
         }
-        sheet.cell(CellIndex.indexByString("H2")).value =
-            TextCellValue("${tools.join("\n")} (${toolsQuantity.join("\n")})");
 
         List<String> imageUrls = [];
         sheet.cell(CellIndex.indexByString("I1")).value =
@@ -283,12 +291,14 @@ class ExportBloc extends Bloc<ExportEvent, ExportState> {
                 log("Images or index out of bounds for event");
               }
             }
+            sheet.cell(CellIndex.indexByString("I${i + 2}")).value =
+                TextCellValue(imageUrls.join("\n"));
+
+            imageUrls.clear();
           } else {
             log("Images is null for event $i");
           }
         }
-        sheet.cell(CellIndex.indexByString("I2")).value =
-            TextCellValue(imageUrls.join("\n"));
 
         log("Excel Data: ${sheet.maxColumns} ${sheet.maxRows}");
 
